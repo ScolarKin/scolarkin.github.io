@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion — ScolarKin</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <aside class="auth-visual">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <div class="auth-quote">
+      <p>« Toute votre gestion scolaire à portée de clic. »</p>
+      <span>L'espace unique pour piloter votre école au quotidien</span>
+    </div>
+  </aside>
+
+  <main class="auth-panel">
+    <div class="auth-card">
+      <a href="index.html" class="back-home">← Retour à l'accueil</a>
+      <h1>Connexion</h1>
+      <p>Choisissez votre profil, puis accédez à votre espace.</p>
+
+      <div class="role-tabs" role="tablist">
+        <button type="button" class="role-tab active" data-role="admin" data-target="admin/index.html" data-id="ADM-2026-001" data-pass="admin2026">🛡️ Admin</button>
+        <button type="button" class="role-tab" data-role="professeur" data-target="professeur/index.html" data-id="PROF-2026-0231" data-pass="prof2026">👩‍🏫 Prof</button>
+        <button type="button" class="role-tab" data-role="eleve" data-target="eleve/index.html" data-id="ELV-2026-0847" data-pass="eleve2026">🎓 Élève</button>
+        <button type="button" class="role-tab" data-role="parent" data-target="parent/index.html" data-id="PAR-2026-0512" data-pass="parent2026">👪 Parent</button>
+      </div>
+
+      <form class="auth-form" id="login-form" data-target="admin/index.html">
+        <div class="field">
+          <label for="email">Identifiant</label>
+          <input type="text" id="email" name="email" placeholder="Votre identifiant" required>
+        </div>
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+        <p class="role-hint">Identifiant de démonstration : <strong id="role-hint-id">ADM-2026-001</strong></p>
+        <div class="auth-form-footer">
+          <label class="checkbox-row">
+            <input type="checkbox" id="remember" name="remember">
+            Se souvenir de moi
+          </label>
+          <a href="#">Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+        <p class="form-note" style="text-align:center;">Connexion de démonstration — l'authentification réelle sera branchée à la prochaine étape (backend).</p>
+      </form>
+
+      <p class="auth-switch">Votre école n'est pas encore inscrite ? <a href="index.html#contact">Demander une démo</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

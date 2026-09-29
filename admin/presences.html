@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Présences — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app-shell.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon">🎓</span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon">🏫</span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon">👩‍🏫</span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon">📝</span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon">🗓️</span>Présences</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon">⚙️</span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div>
+          <h1>Présences</h1>
+          <div class="admin-topbar-sub">Aujourd'hui — 16 septembre 2026</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon">✅</div>
+          </div>
+          <div class="stat-value">45</div>
+          <div class="stat-label">Présents aujourd'hui</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon" style="background:#FEF2F2; color:var(--color-danger);">✕</div>
+          </div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Absents</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon" style="background:#FFFBEB; color:#B45309;">⏱</div>
+          </div>
+          <div class="stat-value">1</div>
+          <div class="stat-label">Retards</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-input">
+            🔍 <input type="text" placeholder="Rechercher un élève…" data-table-search="#presence-table">
+          </div>
+          <div class="toolbar-filters">
+            <select class="select-filter">
+              <option>6e A</option>
+              <option>6e B</option>
+              <option>5e A</option>
+              <option>5e B</option>
+            </select>
+            <input type="date" class="select-filter" value="2026-09-16">
+            <button class="btn btn-primary" data-demo-action>Enregistrer</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table" id="presence-table">
+            <thead>
+              <tr>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Présence du jour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">GM</span><div><div class="cell-name">Grace Mbuyi</div></div></td>
+                <td>6e A</td>
+                <td>
+                  <div class="presence-toggle">
+                    <button data-state="present" class="is-active">Présent</button>
+                    <button data-state="retard">Retard</button>
+                    <button data-state="absent">Absent</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">JK</span><div><div class="cell-name">Joël Kalombo</div></div></td>
+                <td>6e A</td>
+                <td>
+                  <div class="presence-toggle">
+                    <button data-state="present" class="is-active">Présent</button>
+                    <button data-state="retard">Retard</button>
+                    <button data-state="absent">Absent</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">EN</span><div><div class="cell-name">Esther Ntumba</div></div></td>
+                <td>6e A</td>
+                <td>
+                  <div class="presence-toggle">
+                    <button data-state="present">Présent</button>
+                    <button data-state="retard" class="is-active">Retard</button>
+                    <button data-state="absent">Absent</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">PM</span><div><div class="cell-name">Patrick Mukendi</div></div></td>
+                <td>6e A</td>
+                <td>
+                  <div class="presence-toggle">
+                    <button data-state="present">Présent</button>
+                    <button data-state="retard">Retard</button>
+                    <button data-state="absent" class="is-active">Absent</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">SL</span><div><div class="cell-name">Sarah Lukusa</div></div></td>
+                <td>6e A</td>
+                <td>
+                  <div class="presence-toggle">
+                    <button data-state="present" class="is-active">Présent</button>
+                    <button data-state="retard">Retard</button>
+                    <button data-state="absent">Absent</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js"></script>
+</body>
+</html>

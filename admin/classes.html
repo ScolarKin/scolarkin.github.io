@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classes — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app-shell.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon">🎓</span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon">🏫</span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon">👩‍🏫</span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon">📝</span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon">🗓️</span>Présences</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon">⚙️</span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div>
+          <h1>Classes</h1>
+          <div class="admin-topbar-sub">7 classes actives ce trimestre</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="toolbar">
+        <div class="search-input">
+          🔍 <input type="text" placeholder="Rechercher une classe…">
+        </div>
+        <div class="toolbar-filters">
+          <select class="select-filter">
+            <option>Tous les niveaux</option>
+            <option>6e</option>
+            <option>5e</option>
+            <option>4e</option>
+            <option>3e</option>
+          </select>
+          <button class="btn btn-primary" data-demo-action>+ Ajouter une classe</button>
+        </div>
+      </div>
+
+      <div class="class-grid">
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>6e A</h3>
+            <span class="badge badge-green">Actif</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">Mme J. Kabongo <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>48</strong>Élèves</div>
+            <div class="class-card-stat"><strong>76,2</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>96 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 6 matières · 5 professeurs</div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>6e B</h3>
+            <span class="badge badge-green">Actif</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">M. P. Ilunga <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>45</strong>Élèves</div>
+            <div class="class-card-stat"><strong>71,8</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>93 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 6 matières · 5 professeurs</div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>5e A</h3>
+            <span class="badge badge-green">Actif</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">Mme S. Mwamba <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>52</strong>Élèves</div>
+            <div class="class-card-stat"><strong>68,4</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>89 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 7 matières · 6 professeurs</div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>5e B</h3>
+            <span class="badge badge-green">Actif</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">M. E. Kasongo <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>50</strong>Élèves</div>
+            <div class="class-card-stat"><strong>74,1</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>97 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 7 matières · 6 professeurs</div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>4e A</h3>
+            <span class="badge badge-green">Actif</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">Mme G. Ngoyi <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>47</strong>Élèves</div>
+            <div class="class-card-stat"><strong>65,7</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>90 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 8 matières · 7 professeurs</div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-head">
+            <h3>4e B</h3>
+            <span class="badge badge-amber">À surveiller</span>
+          </div>
+          <div style="font-size:13.5px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;">M. A. Mbayo <span class="badge badge-gray" style="font-size:11px; padding:2px 9px;">Titulaire</span></div>
+          <div class="class-card-stats">
+            <div class="class-card-stat"><strong>44</strong>Élèves</div>
+            <div class="class-card-stat"><strong>58,3</strong>Moyenne</div>
+            <div class="class-card-stat"><strong>81 %</strong>Présence</div>
+          </div>
+          <div class="class-card-foot">📚 8 matières · 7 professeurs</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js"></script>
+</body>
+</html>

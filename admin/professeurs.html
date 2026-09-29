@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professeurs — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app-shell.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon">🎓</span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon">🏫</span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon">👩‍🏫</span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon">📝</span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon">🗓️</span>Présences</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon">⚙️</span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div>
+          <h1>Professeurs</h1>
+          <div class="admin-topbar-sub">42 professeurs actifs</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-input">
+            🔍 <input type="text" placeholder="Rechercher un professeur…" data-table-search="#profs-table">
+          </div>
+          <div class="toolbar-filters">
+            <select class="select-filter">
+              <option>Toutes les matières</option>
+              <option>Mathématiques</option>
+              <option>Français</option>
+              <option>Sciences</option>
+            </select>
+            <button class="btn btn-primary" data-demo-action>+ Ajouter un professeur</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table" id="profs-table">
+            <thead>
+              <tr>
+                <th>Professeur</th>
+                <th>Matière(s)</th>
+                <th>Classes assignées</th>
+                <th>Contact</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">JK</span><div><div class="cell-name">Mme J. Kabongo</div><div class="cell-sub">Depuis 2021</div></div></td>
+                <td>Mathématiques</td>
+                <td>6e A, 5e A</td>
+                <td class="cell-sub">j.kabongo@scolarkin.cd</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">PI</span><div><div class="cell-name">M. P. Ilunga</div><div class="cell-sub">Depuis 2019</div></div></td>
+                <td>Français</td>
+                <td>6e B, 4e A</td>
+                <td class="cell-sub">p.ilunga@scolarkin.cd</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">SM</span><div><div class="cell-name">Mme S. Mwamba</div><div class="cell-sub">Depuis 2022</div></div></td>
+                <td>Sciences naturelles</td>
+                <td>5e A, 5e B</td>
+                <td class="cell-sub">s.mwamba@scolarkin.cd</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">EK</span><div><div class="cell-name">M. E. Kasongo</div><div class="cell-sub">Depuis 2018</div></div></td>
+                <td>Histoire-Géographie</td>
+                <td>5e B, 3e A</td>
+                <td class="cell-sub">e.kasongo@scolarkin.cd</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">AM</span><div><div class="cell-name">M. A. Mbayo</div><div class="cell-sub">Depuis 2023</div></div></td>
+                <td>Anglais</td>
+                <td>4e B</td>
+                <td class="cell-sub">a.mbayo@scolarkin.cd</td>
+                <td><span class="badge badge-amber">En congé</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span>Affichage de 5 sur 42 professeurs</span>
+          <div class="pagination">
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>9</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js"></script>
+</body>
+</html>

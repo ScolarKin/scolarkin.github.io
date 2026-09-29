@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de bord — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app-shell.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon">🎓</span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon">🏫</span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon">👩‍🏫</span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon">📝</span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon">🗓️</span>Présences</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon">⚙️</span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div>
+          <h1>Tableau de bord</h1>
+          <div class="admin-topbar-sub">Vue d'ensemble de votre école — aujourd'hui</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon">🎓</div>
+            <span class="stat-trend up">+4,2%</span>
+          </div>
+          <div class="stat-value">1 284</div>
+          <div class="stat-label">Élèves inscrits</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon">👩‍🏫</div>
+            <span class="stat-trend up">+2</span>
+          </div>
+          <div class="stat-value">42</div>
+          <div class="stat-label">Professeurs actifs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon">🗓️</div>
+            <span class="stat-trend up">+1,1%</span>
+          </div>
+          <div class="stat-value">94 %</div>
+          <div class="stat-label">Taux de présence moyen</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-icon">📝</div>
+            <span class="stat-trend down">-0,3</span>
+          </div>
+          <div class="stat-value">72,4 / 100</div>
+          <div class="stat-label">Moyenne générale</div>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Répartition des élèves par classe</h2>
+              <p style="color:var(--color-text-soft);">Effectifs du trimestre en cours</p>
+            </div>
+            <a href="classes.html" class="panel-link">Voir les classes →</a>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:55%;"></div>
+              <span class="bar-chart-label">6e A</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:70%;"></div>
+              <span class="bar-chart-label">6e B</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:45%;"></div>
+              <span class="bar-chart-label">5e A</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:88%;"></div>
+              <span class="bar-chart-label">5e B</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:62%;"></div>
+              <span class="bar-chart-label">4e A</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:38%;"></div>
+              <span class="bar-chart-label">4e B</span>
+            </div>
+            <div class="bar-chart-col">
+              <div class="bar-chart-bar" style="height:74%;"></div>
+              <span class="bar-chart-label">3e A</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Activité récente</h2>
+            </div>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-dot"></span>
+              <div>
+                <div class="activity-text">Bulletins du 2e trimestre générés pour la classe 5e B</div>
+                <div class="activity-time">Il y a 12 min</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="activity-dot"></span>
+              <div>
+                <div class="activity-text">Nouvel élève inscrit : Grace Mbuyi (6e A)</div>
+                <div class="activity-time">Il y a 1 h</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="activity-dot"></span>
+              <div>
+                <div class="activity-text">Présences enregistrées pour 7 classes</div>
+                <div class="activity-time">Ce matin, 07:42</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="activity-dot"></span>
+              <div>
+                <div class="activity-text">Professeur ajouté : J. Kabongo (Mathématiques)</div>
+                <div class="activity-time">Hier</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="activity-dot"></span>
+              <div>
+                <div class="activity-text">Sauvegarde automatique effectuée</div>
+                <div class="activity-time">Hier, 23:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js"></script>
+</body>
+</html>

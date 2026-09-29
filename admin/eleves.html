@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Élèves — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app-shell.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon">🎓</span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon">🏫</span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon">👩‍🏫</span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon">📝</span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon">🗓️</span>Présences</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon">⚙️</span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div>
+          <h1>Élèves</h1>
+          <div class="admin-topbar-sub">1 284 élèves inscrits sur l'ensemble des classes</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-input">
+            🔍 <input type="text" placeholder="Rechercher un élève par nom, classe…" data-table-search="#eleves-table">
+          </div>
+          <div class="toolbar-filters">
+            <select class="select-filter">
+              <option>Toutes les classes</option>
+              <option>6e A</option>
+              <option>6e B</option>
+              <option>5e A</option>
+              <option>5e B</option>
+            </select>
+            <select class="select-filter">
+              <option>Tous les statuts</option>
+              <option>Actif</option>
+              <option>Inactif</option>
+            </select>
+            <button class="btn btn-primary" data-demo-action>+ Ajouter un élève</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table" id="eleves-table">
+            <thead>
+              <tr>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Sexe</th>
+                <th>Moyenne</th>
+                <th>Présence</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">GM</span><div><div class="cell-name">Grace Mbuyi</div><div class="cell-sub">ID #10284</div></div></td>
+                <td>6e A</td>
+                <td>F</td>
+                <td>78,5 / 100</td>
+                <td>96 %</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">JK</span><div><div class="cell-name">Joël Kalombo</div><div class="cell-sub">ID #10285</div></div></td>
+                <td>6e A</td>
+                <td>M</td>
+                <td>64,2 / 100</td>
+                <td>88 %</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">EN</span><div><div class="cell-name">Esther Ntumba</div><div class="cell-sub">ID #10286</div></div></td>
+                <td>6e B</td>
+                <td>F</td>
+                <td>81,9 / 100</td>
+                <td>99 %</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">PM</span><div><div class="cell-name">Patrick Mukendi</div><div class="cell-sub">ID #10287</div></div></td>
+                <td>5e A</td>
+                <td>M</td>
+                <td>55,0 / 100</td>
+                <td>72 %</td>
+                <td><span class="badge badge-amber">À surveiller</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">SL</span><div><div class="cell-name">Sarah Lukusa</div><div class="cell-sub">ID #10288</div></div></td>
+                <td>5e B</td>
+                <td>F</td>
+                <td>89,4 / 100</td>
+                <td>100 %</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">DT</span><div><div class="cell-name">David Tshimanga</div><div class="cell-sub">ID #10289</div></div></td>
+                <td>4e A</td>
+                <td>M</td>
+                <td>70,1 / 100</td>
+                <td>91 %</td>
+                <td><span class="badge badge-green">Actif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+              <tr>
+                <td class="cell-person"><span class="cell-avatar">NK</span><div><div class="cell-name">Nadège Kabeya</div><div class="cell-sub">ID #10290</div></div></td>
+                <td>3e A</td>
+                <td>F</td>
+                <td>60,8 / 100</td>
+                <td>65 %</td>
+                <td><span class="badge badge-red">Inactif</span></td>
+                <td class="row-actions"><button title="Voir">👁</button><button title="Modifier">✎</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span>Affichage de 7 sur 1 284 élèves</span>
+          <div class="pagination">
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>…</button>
+            <button>184</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js"></script>
+</body>
+</html>
