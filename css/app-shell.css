@@ -230,6 +230,8 @@
   grid-template-columns: 1.6fr 1fr;
   gap: 20px;
 }
+.content-grid > .panel { min-width: 0; }
+.content-grid-form { grid-template-columns: 1fr 1.3fr; }
 
 /* Mini bar chart (CSS only) --------------------------------------------- */
 .bar-chart { display: flex; align-items: flex-end; gap: 14px; height: 160px; padding-top: 10px; }

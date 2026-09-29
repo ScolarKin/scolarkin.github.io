@@ -57,3 +57,14 @@ if (avisForm) {
     avisForm.reset();
   });
 }
+
+// Formulaire "Publier des cours" (espace professeur) — démo, pas encore de backend
+const coursForm = document.getElementById("cours-form");
+if (coursForm) {
+  coursForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const classe = document.getElementById("cours-classe").value;
+    alert(`Support publié ! Il apparaît désormais dans « Mes cours » pour les élèves de ${classe} (démonstration — pas encore connecté à un backend).`);
+    coursForm.reset();
+  });
+}
