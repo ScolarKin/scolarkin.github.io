@@ -11,6 +11,35 @@ if (navToggle && navLinks) {
   });
 }
 
+// Header qui se masque au scroll vers le bas, réapparaît au scroll vers le haut
+const siteHeader = document.querySelector(".site-header");
+if (siteHeader) {
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const HIDE_THRESHOLD = 80;
+
+  const updateHeader = () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY <= HIDE_THRESHOLD) {
+      siteHeader.classList.remove("header-hidden");
+    } else if (currentScrollY > lastScrollY) {
+      siteHeader.classList.add("header-hidden");
+      if (navLinks) navLinks.classList.remove("is-open");
+    } else {
+      siteHeader.classList.remove("header-hidden");
+    }
+    lastScrollY = currentScrollY;
+    ticking = false;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(updateHeader);
+      ticking = true;
+    }
+  });
+}
+
 // Formulaire de démonstration (accueil)
 const demoForm = document.getElementById("demo-form");
 if (demoForm) {
