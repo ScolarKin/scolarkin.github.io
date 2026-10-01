@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Tableau de bord — Espace Professeur ScolarKin</title>
-<link rel="stylesheet" href="../css/styles.css?v=2">
-<link rel="stylesheet" href="../css/app-shell.css?v=3">
+<link rel="stylesheet" href="../css/styles.css?v=5">
+<link rel="stylesheet" href="../css/app-shell.css?v=4">
 </head>
 <body class="admin-body">
 
@@ -17,29 +20,29 @@
     </a>
     <nav class="admin-nav">
       <span class="admin-nav-label">Espace professeur</span>
-      <a href="index.html"><span class="nav-icon">📊</span>Tableau de bord</a>
-      <a href="classes.html"><span class="nav-icon">🏫</span>Mes classes</a>
-      <a href="cours.html"><span class="nav-icon">📚</span>Publier des cours</a>
-      <a href="notes.html"><span class="nav-icon">📝</span>Saisie des notes</a>
-      <a href="presences.html"><span class="nav-icon">🗓️</span>Faire l'appel</a>
+      <a href="index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>Tableau de bord</a>
+      <a href="classes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M18 4.933V21" /> <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /> <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /> <path d="M6 4.933V21" /> <circle cx="12" cy="9" r="2" /></svg></span>Mes classes</a>
+      <a href="cours.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg></span>Publier des cours</a>
+      <a href="notes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></span>Saisie des notes</a>
+      <a href="presences.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></svg></span>Faire l'appel</a>
     </nav>
     <div class="admin-sidebar-footer">
-      <a href="../index.html"><span class="nav-icon">🌐</span>Retour au site</a>
-      <a href="../connexion.html"><span class="nav-icon">🚪</span>Déconnexion</a>
+      <a href="../index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></span>Retour au site</a>
+      <a href="../connexion.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>Déconnexion</a>
     </div>
   </aside>
 
   <div class="admin-main">
     <header class="admin-topbar">
       <div style="display:flex; align-items:center; gap:14px;">
-        <button class="admin-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
         <div>
           <h1>Bonjour, Mme Kabongo 👋</h1>
           <div class="admin-topbar-sub">Mathématiques — 6e A, 5e A</div>
         </div>
       </div>
       <div class="admin-topbar-actions">
-        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span>🔔</button>
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></button>
         <div class="admin-user">
           <div class="admin-user-avatar">JK</div>
           <div class="admin-user-info">
@@ -53,25 +56,25 @@
     <main class="admin-content">
       <div class="stat-grid">
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon">🏫</div></div>
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M18 4.933V21" /> <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /> <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /> <path d="M6 4.933V21" /> <circle cx="12" cy="9" r="2" /></svg></div></div>
           <div class="stat-value">2</div>
           <div class="stat-label">Classes en charge</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon">🎓</div></div>
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></div></div>
           <div class="stat-value">100</div>
           <div class="stat-label">Élèves au total</div>
         </div>
         <div class="stat-card">
           <div class="stat-card-top">
-            <div class="stat-icon">📝</div>
+            <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></div>
             <span class="stat-trend up">+1,4</span>
           </div>
           <div class="stat-value">74,5 / 100</div>
           <div class="stat-label">Moyenne de mes classes</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon">🕒</div></div>
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg></div></div>
           <div class="stat-value">3</div>
           <div class="stat-label">Cours aujourd'hui</div>
         </div>

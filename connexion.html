@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Connexion — ScolarKin</title>
-<link rel="stylesheet" href="css/styles.css?v=2">
+<link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
 
@@ -27,10 +30,10 @@
       <p>Choisissez votre profil, puis accédez à votre espace.</p>
 
       <div class="role-tabs" role="tablist">
-        <button type="button" class="role-tab active" data-role="admin" data-target="admin/index.html" data-id="ADM-2026-001" data-pass="admin2026">🛡️ Admin</button>
-        <button type="button" class="role-tab" data-role="professeur" data-target="professeur/index.html" data-id="PROF-2026-0231" data-pass="prof2026">👩‍🏫 Prof</button>
-        <button type="button" class="role-tab" data-role="eleve" data-target="eleve/index.html" data-id="ELV-2026-0847" data-pass="eleve2026">🎓 Élève</button>
-        <button type="button" class="role-tab" data-role="parent" data-target="parent/index.html" data-id="PAR-2026-0512" data-pass="parent2026">👪 Parent</button>
+        <button type="button" class="role-tab active" data-role="admin" data-target="admin/index.html" data-id="ADM-2026-001" data-pass="admin2026"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg>Admin</button>
+        <button type="button" class="role-tab" data-role="professeur" data-target="professeur/index.html" data-id="PROF-2026-0231" data-pass="prof2026"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /></svg>Prof</button>
+        <button type="button" class="role-tab" data-role="eleve" data-target="eleve/index.html" data-id="ELV-2026-0847" data-pass="eleve2026"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg>Élève</button>
+        <button type="button" class="role-tab" data-role="parent" data-target="parent/index.html" data-id="PAR-2026-0512" data-pass="parent2026"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></svg>Parent</button>
       </div>
 
       <form class="auth-form" id="login-form" data-target="admin/index.html">

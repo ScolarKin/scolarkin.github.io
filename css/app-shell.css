@@ -110,12 +110,14 @@
 
 .admin-menu-toggle {
   display: none;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
-  font-size: 20px;
   cursor: pointer;
   color: var(--color-text);
 }
+.admin-menu-toggle .icon { width: 22px; height: 22px; }
 
 .admin-user {
   display: flex;
@@ -197,6 +199,7 @@
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
+.stat-icon .icon { width: 20px; height: 20px; }
 .stat-trend {
   font-size: 12.5px;
   font-weight: 700;
@@ -284,6 +287,7 @@
   min-width: 240px;
 }
 .search-input input { border: none; outline: none; font-size: 14px; width: 100%; font-family: inherit; }
+.search-input .icon { width: 16px; height: 16px; color: var(--color-text-soft); }
 .select-filter {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -343,6 +347,9 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 
 .row-actions { display: flex; gap: 8px; }
 .row-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
   border-radius: 8px;
@@ -352,6 +359,7 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   font-size: 13px;
   color: var(--color-text-muted);
 }
+.row-actions button .icon { width: 15px; height: 15px; }
 .row-actions button:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
 .table-footer {
@@ -396,6 +404,7 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   font-size: 13.5px;
   color: var(--color-text-muted);
 }
+.class-card-foot .icon { width: 16px; height: 16px; }
 
 /* Presence toggle ------------------------------------------------------ */
 .presence-toggle { display: flex; gap: 6px; }
@@ -431,7 +440,7 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     z-index: 100;
   }
   .admin-sidebar.is-open { transform: translateX(0); box-shadow: var(--shadow-lg); }
-  .admin-menu-toggle { display: block; }
+  .admin-menu-toggle { display: flex; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .class-grid { grid-template-columns: 1fr; }
   .admin-content { padding: 18px; }
