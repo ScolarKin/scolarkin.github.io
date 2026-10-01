@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Boîte de réception — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css?v=5">
+<link rel="stylesheet" href="../css/app-shell.css?v=5">
+<style>
+  .inbox-shell { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+  .inbox-list-panel { padding: 16px; }
+  .inbox-list-panel .toolbar { flex-direction: column; align-items: stretch; margin-bottom: 14px; }
+  .inbox-list-panel .toolbar-filters { flex-direction: column; }
+  .inbox-list-panel .search-input { min-width: 0; }
+
+  .inbox-list { display: flex; flex-direction: column; gap: 2px; max-height: 640px; overflow-y: auto; }
+  .inbox-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 12px 10px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .inbox-item:hover { background: var(--color-surface-alt); }
+  .inbox-item.is-active { background: var(--color-primary-light); border-left-color: var(--color-primary); }
+  .inbox-item-top { display: flex; align-items: center; gap: 9px; }
+  .inbox-unread-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; visibility: hidden; }
+  .inbox-item.is-unread .inbox-unread-dot { visibility: visible; }
+  .inbox-item-name { flex: 1; min-width: 0; font-size: 13.5px; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .inbox-item.is-unread .inbox-item-name,
+  .inbox-item.is-unread .inbox-item-subject { font-weight: 700; }
+  .inbox-item-date { font-size: 11.5px; color: var(--color-text-soft); flex-shrink: 0; }
+  .inbox-item-subject { font-size: 13.5px; color: var(--color-text); }
+  .inbox-item-snippet { font-size: 12px; color: var(--color-text-soft); }
+  .inbox-item-foot { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+  .inbox-empty-filter { padding: 20px 10px; text-align: center; }
+
+  .inbox-detail-panel { padding: 26px; min-height: 560px; }
+  .inbox-detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+  .inbox-detail-subject { font-size: 18px; margin: 0 0 6px; }
+  .inbox-detail-meta { font-size: 13px; color: var(--color-text-soft); }
+  .inbox-detail-type { margin-bottom: 18px; }
+  .inbox-detail-body {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--color-text);
+    white-space: pre-line;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 22px;
+  }
+  .inbox-prior-reply {
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 22px;
+  }
+  .inbox-prior-reply-label { font-size: 12px; font-weight: 700; color: var(--color-text-soft); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .inbox-prior-reply p { margin: 0; font-size: 14px; color: var(--color-text); }
+  .inbox-reply .field { margin-bottom: 14px; }
+  .inbox-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 480px; color: var(--color-text-soft); text-align: center; }
+  .inbox-empty .icon { width: 40px; height: 40px; opacity: 0.4; }
+
+  @media (max-width: 1100px) {
+    .inbox-shell { grid-template-columns: 1fr; }
+    .inbox-list { max-height: 420px; }
+    .inbox-list-panel .toolbar { flex-direction: row; align-items: center; flex-wrap: wrap; }
+    .inbox-list-panel .toolbar-filters { flex-direction: row; }
+  }
+</style>
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M18 4.933V21" /> <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /> <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /> <path d="M6 4.933V21" /> <circle cx="12" cy="9" r="2" /></svg></span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></svg></span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></svg></span>Présences</a>
+      <span class="admin-nav-label">Communication</span>
+      <a href="messages.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></span>Messages<span class="nav-count-badge" id="nav-unread-badge">2</span></a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg></span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+        <div>
+          <h1>Boîte de réception</h1>
+          <div class="admin-topbar-sub">Messages envoyés par les parents</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></div></div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-label">Messages reçus</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon" style="background:#FEF2F2; color:var(--color-danger);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></div></div>
+          <div class="stat-value" id="stat-unread">—</div>
+          <div class="stat-label">Non lus</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon" style="background:#FFFBEB; color:#B45309;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg></div></div>
+          <div class="stat-value" id="stat-pending">—</div>
+          <div class="stat-label">En attente de réponse</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon" style="background:#ECFDF5; color:var(--color-accent-dark);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 7 17l-5-5" /> <path d="m22 10-7.5 7.5L13 16" /></svg></div></div>
+          <div class="stat-value" id="stat-replied">—</div>
+          <div class="stat-label">Répondus</div>
+        </div>
+      </div>
+
+      <div class="inbox-shell">
+        <div class="panel inbox-list-panel">
+          <div class="toolbar">
+            <div class="search-input">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>
+              <input type="text" id="inbox-search" placeholder="Rechercher un parent, un élève, un sujet…">
+            </div>
+            <div class="toolbar-filters">
+              <select class="select-filter" id="filter-type">
+                <option value="all">Tous les types</option>
+                <option>Avis / retour positif</option>
+                <option>Plainte</option>
+                <option>Suggestion</option>
+                <option>Question administrative</option>
+                <option>Autre</option>
+              </select>
+              <select class="select-filter" id="filter-statut">
+                <option value="all">Tous les statuts</option>
+                <option>Envoyé</option>
+                <option>En cours</option>
+                <option>Répondu</option>
+              </select>
+            </div>
+          </div>
+          <div class="inbox-list" id="inbox-list"></div>
+        </div>
+
+        <div class="panel inbox-detail-panel" id="inbox-detail"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js?v=3"></script>
+<script>
+  const MESSAGES = [
+    {
+      id: "m1", parent: "Mme S. Ntumba", initials: "SN", enfant: "Esther Ntumba", classe: "6e A",
+      date: "26 sept. 2026", dateLabel: "26 sept.", type: "Plainte", typeBadge: "badge-red",
+      sujet: "Incident au terrain de sport hier après-midi",
+      body: "Bonjour,\n\nJe voulais vous signaler qu'Esther est rentrée hier avec une égratignure assez importante au genou, suite à une chute sur le terrain de sport pendant la récréation. Personne ne nous a prévenus avant qu'elle rentre à la maison.\n\nPourriez-vous me dire ce qui s'est passé exactement, et si un encadrant était présent sur place ?\n\nMerci d'avance,\nMme Ntumba",
+      statut: "Envoyé", statutBadge: "badge-gray", unread: true, reponse: null,
+    },
+    {
+      id: "m2", parent: "M. J. Kalombo", initials: "JK", enfant: "Joël Kalombo", classe: "6e A",
+      date: "24 sept. 2026", dateLabel: "24 sept.", type: "Question administrative", typeBadge: "badge-gray",
+      sujet: "Modalités de paiement du 2e trimestre",
+      body: "Bonjour,\n\nJe souhaiterais connaître les modalités de paiement du 2e trimestre : est-il possible de régler en deux fois cette fois-ci ? Nous avons eu un imprévu ce mois-ci.\n\nMerci de votre compréhension.\n\nM. Kalombo",
+      statut: "Envoyé", statutBadge: "badge-gray", unread: true, reponse: null,
+    },
+    {
+      id: "m3", parent: "M. F. Mbuyi", initials: "FM", enfant: "Grace Mbuyi", classe: "6e A",
+      date: "10 sept. 2026", dateLabel: "10 sept.", type: "Question administrative", typeBadge: "badge-gray",
+      sujet: "Duplicata du certificat d'inscription",
+      body: "Bonjour,\n\nJ'ai égaré le certificat d'inscription de Grace pour cette année. Serait-il possible d'en obtenir un duplicata ? J'en ai besoin pour une démarche administrative.\n\nCordialement,\nFélix Mbuyi",
+      statut: "Répondu", statutBadge: "badge-green", unread: false,
+      reponse: "Bonjour M. Mbuyi, le duplicata est prêt et disponible au secrétariat dès demain matin. Bien cordialement, l'administration.",
+    },
+    {
+      id: "m4", parent: "M. F. Mbuyi", initials: "FM", enfant: "Grace Mbuyi", classe: "6e A",
+      date: "2 sept. 2026", dateLabel: "2 sept.", type: "Suggestion", typeBadge: "badge-gray",
+      sujet: "Horaire de sortie trop tardif pour le bus scolaire",
+      body: "Bonjour,\n\nLe bus scolaire de Grace passe souvent après l'heure annoncée, ce qui complique l'organisation pour certains parents. Serait-il possible de revoir légèrement l'horaire de sortie du vendredi ?\n\nMerci,\nFélix Mbuyi",
+      statut: "En cours", statutBadge: "badge-amber", unread: false, reponse: null,
+    },
+    {
+      id: "m5", parent: "Mme S. Lukusa", initials: "SL", enfant: "Sarah Lukusa", classe: "6e A",
+      date: "15 sept. 2026", dateLabel: "15 sept.", type: "Autre", typeBadge: "badge-gray",
+      sujet: "Changement d'adresse à mettre à jour",
+      body: "Bonjour,\n\nNous avons déménagé ce mois-ci. Pourriez-vous mettre à jour l'adresse de Sarah dans son dossier ? Je peux vous transmettre un justificatif si nécessaire.\n\nCordialement,\nMme Lukusa",
+      statut: "Répondu", statutBadge: "badge-green", unread: false,
+      reponse: "Bonjour Mme Lukusa, c'est noté, le dossier de Sarah a été mis à jour. Merci de nous avoir prévenus.",
+    },
+    {
+      id: "m6", parent: "M. F. Mbuyi", initials: "FM", enfant: "Grace Mbuyi", classe: "6e A",
+      date: "28 août 2026", dateLabel: "28 août", type: "Avis / retour positif", typeBadge: "badge-gray",
+      sujet: "Merci à l'équipe pour la rentrée bien organisée",
+      body: "Bonjour,\n\nJe voulais simplement vous remercier pour l'organisation de la rentrée cette année, tout s'est très bien passé pour Grace. Continuez ainsi !\n\nFélix Mbuyi",
+      statut: "Envoyé", statutBadge: "badge-gray", unread: false, reponse: null,
+    },
+  ];
+
+  const STATUT_BADGE = { "Envoyé": "badge-gray", "En cours": "badge-amber", "Répondu": "badge-green" };
+
+  let selectedId = null;
+  let searchTerm = "";
+  let filterType = "all";
+  let filterStatut = "all";
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function filteredMessages() {
+    return MESSAGES.filter((m) => {
+      if (filterType !== "all" && m.type !== filterType) return false;
+      if (filterStatut !== "all" && m.statut !== filterStatut) return false;
+      if (searchTerm) {
+        const hay = (m.parent + " " + m.enfant + " " + m.sujet).toLowerCase();
+        if (!hay.includes(searchTerm.toLowerCase())) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderList() {
+    const list = document.getElementById("inbox-list");
+    const items = filteredMessages();
+    if (items.length === 0) {
+      list.innerHTML = '<p class="form-note inbox-empty-filter">Aucun message ne correspond à votre recherche.</p>';
+      return;
+    }
+    list.innerHTML = items.map((m) => `
+      <button class="inbox-item ${m.unread ? "is-unread" : ""} ${m.id === selectedId ? "is-active" : ""}" data-id="${m.id}">
+        <div class="inbox-item-top">
+          <span class="inbox-unread-dot"></span>
+          <span class="cell-avatar">${m.initials}</span>
+          <span class="inbox-item-name">${escapeHtml(m.parent)}</span>
+          <span class="inbox-item-date">${m.dateLabel}</span>
+        </div>
+        <div class="inbox-item-subject">${escapeHtml(m.sujet)}</div>
+        <div class="inbox-item-snippet">${escapeHtml(m.enfant)} · ${escapeHtml(m.classe)}</div>
+        <div class="inbox-item-foot">
+          <span class="badge ${m.typeBadge}">${m.type}</span>
+          <span class="badge ${m.statutBadge}">${m.statut}</span>
+        </div>
+      </button>
+    `).join("");
+    list.querySelectorAll(".inbox-item").forEach((btn) => {
+      btn.addEventListener("click", () => selectMessage(btn.dataset.id));
+    });
+  }
+
+  function renderDetail(msg) {
+    const detail = document.getElementById("inbox-detail");
+    if (!msg) {
+      detail.innerHTML = `
+        <div class="inbox-empty">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg>
+          <p>Sélectionnez un message pour l'afficher</p>
+        </div>
+      `;
+      return;
+    }
+    detail.innerHTML = `
+      <div class="inbox-detail-head">
+        <div>
+          <h2 class="inbox-detail-subject">${escapeHtml(msg.sujet)}</h2>
+          <div class="inbox-detail-meta">${escapeHtml(msg.parent)} · parent de ${escapeHtml(msg.enfant)} (${escapeHtml(msg.classe)}) · ${msg.date}</div>
+        </div>
+        <select class="select-filter" id="statut-select">
+          <option ${msg.statut === "Envoyé" ? "selected" : ""}>Envoyé</option>
+          <option ${msg.statut === "En cours" ? "selected" : ""}>En cours</option>
+          <option ${msg.statut === "Répondu" ? "selected" : ""}>Répondu</option>
+        </select>
+      </div>
+      <div class="inbox-detail-type"><span class="badge ${msg.typeBadge}">${msg.type}</span></div>
+      <div class="inbox-detail-body">${escapeHtml(msg.body)}</div>
+      ${msg.reponse ? `<div class="inbox-prior-reply"><div class="inbox-prior-reply-label">Votre réponse</div><p>${escapeHtml(msg.reponse)}</p></div>` : ""}
+      <form class="inbox-reply" id="reply-form">
+        <div class="field">
+          <label for="reply-text">Répondre à ${escapeHtml(msg.parent)}</label>
+          <textarea id="reply-text" rows="4" placeholder="Écrivez votre réponse…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4" /> <path d="m9 17-5-5 5-5" /></svg>Envoyer la réponse</button>
+        <p class="form-note" style="margin-top:10px;">Fonctionnalité de démonstration — la réponse n'est pas encore réellement envoyée au parent.</p>
+      </form>
+    `;
+    document.getElementById("statut-select").addEventListener("change", (e) => {
+      msg.statut = e.target.value;
+      msg.statutBadge = STATUT_BADGE[msg.statut];
+      renderList();
+      updateStatCounts();
+    });
+    document.getElementById("reply-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = document.getElementById("reply-text").value.trim();
+      if (!text) return;
+      msg.reponse = text;
+      msg.statut = "Répondu";
+      msg.statutBadge = "badge-green";
+      alert(`Réponse envoyée à ${msg.parent} (démonstration — pas encore connectée à un backend).`);
+      renderList();
+      renderDetail(msg);
+      updateStatCounts();
+    });
+  }
+
+  function selectMessage(id) {
+    const msg = MESSAGES.find((m) => m.id === id);
+    if (!msg) return;
+    msg.unread = false;
+    selectedId = id;
+    renderList();
+    renderDetail(msg);
+    updateStatCounts();
+  }
+
+  function updateStatCounts() {
+    document.getElementById("stat-total").textContent = MESSAGES.length;
+    const unread = MESSAGES.filter((m) => m.unread).length;
+    document.getElementById("stat-unread").textContent = unread;
+    document.getElementById("stat-pending").textContent = MESSAGES.filter((m) => m.statut === "En cours").length;
+    document.getElementById("stat-replied").textContent = MESSAGES.filter((m) => m.statut === "Répondu").length;
+    const navBadge = document.getElementById("nav-unread-badge");
+    if (navBadge) {
+      navBadge.textContent = unread;
+      navBadge.style.display = unread > 0 ? "" : "none";
+    }
+  }
+
+  document.getElementById("inbox-search").addEventListener("input", (e) => { searchTerm = e.target.value; renderList(); });
+  document.getElementById("filter-type").addEventListener("change", (e) => { filterType = e.target.value; renderList(); });
+  document.getElementById("filter-statut").addEventListener("change", (e) => { filterStatut = e.target.value; renderList(); });
+
+  renderList();
+  renderDetail(null);
+  updateStatCounts();
+</script>
+</body>
+</html>
