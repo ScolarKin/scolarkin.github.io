@@ -13,7 +13,7 @@ const sidebar = document.querySelector(".admin-sidebar");
 if (menuToggle && sidebar) {
   menuToggle.addEventListener("click", () => sidebar.classList.toggle("is-open"));
   document.addEventListener("click", (e) => {
-    if (sidebar.classList.contains("is-open") && !sidebar.contains(e.target) && e.target !== menuToggle) {
+    if (sidebar.classList.contains("is-open") && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
       sidebar.classList.remove("is-open");
     }
   });
