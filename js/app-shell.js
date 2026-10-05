@@ -44,7 +44,7 @@ document.querySelectorAll(".presence-toggle").forEach((group) => {
 // Boutons d'action décoratifs (ajouter, générer, exporter…) en mode démo
 document.querySelectorAll("[data-demo-action]").forEach((btn) => {
   btn.addEventListener("click", () => {
-    alert("Action de démonstration — pas encore connectée à un backend.");
+    alert("Action de démonstration : pas encore connectée à un backend.");
   });
 });
 
@@ -53,7 +53,7 @@ const avisForm = document.getElementById("avis-form");
 if (avisForm) {
   avisForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    alert("Merci ! Votre message est enregistré en démonstration — il sera réellement transmis au secrétariat une fois le backend branché.");
+    alert("Merci ! Votre message est enregistré en démonstration : il sera réellement transmis au secrétariat une fois le backend branché.");
     avisForm.reset();
   });
 }
@@ -64,7 +64,7 @@ if (coursForm) {
   coursForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const classe = document.getElementById("cours-classe").value;
-    alert(`Support publié ! Il apparaît désormais dans « Mes cours » pour les élèves de ${classe} (démonstration — pas encore connecté à un backend).`);
+    alert(`Support publié ! Il apparaît désormais dans « Mes cours » pour les élèves de ${classe} (démonstration : pas encore connecté à un backend).`);
     coursForm.reset();
   });
 }

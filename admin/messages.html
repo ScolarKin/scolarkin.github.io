@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Boîte de réception — Admin ScolarKin</title>
-<link rel="stylesheet" href="../css/styles.css?v=5">
-<link rel="stylesheet" href="../css/app-shell.css?v=6">
+<link rel="stylesheet" href="../css/styles.css?v=6">
+<link rel="stylesheet" href="../css/app-shell.css?v=7">
 <style>
   .inbox-shell { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
   .inbox-list-panel { padding: 16px; }
@@ -135,17 +135,17 @@
           <div class="stat-label">Messages reçus</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon" style="background:#FEF2F2; color:var(--color-danger);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></div></div>
+          <div class="stat-card-top"><div class="stat-icon" style="color:var(--color-danger);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></div></div>
           <div class="stat-value" id="stat-unread">—</div>
           <div class="stat-label">Non lus</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon" style="background:#FFFBEB; color:#B45309;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg></div></div>
+          <div class="stat-card-top"><div class="stat-icon" style="color:#B45309;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg></div></div>
           <div class="stat-value" id="stat-pending">—</div>
           <div class="stat-label">En attente de réponse</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon" style="background:#ECFDF5; color:var(--color-accent-dark);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 7 17l-5-5" /> <path d="m22 10-7.5 7.5L13 16" /></svg></div></div>
+          <div class="stat-card-top"><div class="stat-icon" style="color:var(--color-accent-dark);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 7 17l-5-5" /> <path d="m22 10-7.5 7.5L13 16" /></svg></div></div>
           <div class="stat-value" id="stat-replied">—</div>
           <div class="stat-label">Répondus</div>
         </div>
@@ -184,7 +184,7 @@
   </div>
 </div>
 
-<script src="../js/app-shell.js?v=4"></script>
+<script src="../js/app-shell.js?v=5"></script>
 <script>
   const MESSAGES = [
     {
@@ -244,6 +244,10 @@
     return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
+  function deNom(name) {
+    return /^[AEIOUYÀÂÉÈÊËÎÏÔÙÛÜH]/i.test(name) ? "d'" + name : "de " + name;
+  }
+
   function filteredMessages() {
     return MESSAGES.filter((m) => {
       if (filterType !== "all" && m.type !== filterType) return false;
@@ -272,7 +276,7 @@
           <span class="inbox-item-date">${m.dateLabel}</span>
         </div>
         <div class="inbox-item-subject">${escapeHtml(m.sujet)}</div>
-        <div class="inbox-item-snippet">${escapeHtml(m.enfant)} · ${escapeHtml(m.classe)}</div>
+        <div class="inbox-item-snippet">${escapeHtml(m.enfant)}, ${escapeHtml(m.classe)}</div>
         <div class="inbox-item-foot">
           <span class="badge ${m.typeBadge}">${m.type}</span>
           <span class="badge ${m.statutBadge}">${m.statut}</span>
@@ -299,7 +303,7 @@
       <div class="inbox-detail-head">
         <div>
           <h2 class="inbox-detail-subject">${escapeHtml(msg.sujet)}</h2>
-          <div class="inbox-detail-meta">${escapeHtml(msg.parent)} · parent de ${escapeHtml(msg.enfant)} (${escapeHtml(msg.classe)}) · ${msg.date}</div>
+          <div class="inbox-detail-meta">${escapeHtml(msg.parent)}, parent ${escapeHtml(deNom(msg.enfant))} (${escapeHtml(msg.classe)}), reçu le ${msg.date}</div>
         </div>
         <select class="select-filter" id="statut-select">
           <option ${msg.statut === "Envoyé" ? "selected" : ""}>Envoyé</option>
@@ -316,7 +320,7 @@
           <textarea id="reply-text" rows="4" placeholder="Écrivez votre réponse…"></textarea>
         </div>
         <button type="submit" class="btn btn-primary"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4" /> <path d="m9 17-5-5 5-5" /></svg>Envoyer la réponse</button>
-        <p class="form-note" style="margin-top:10px;">Fonctionnalité de démonstration — la réponse n'est pas encore réellement envoyée au parent.</p>
+        <p class="form-note" style="margin-top:10px;">Fonctionnalité de démonstration : la réponse n'est pas encore réellement envoyée au parent.</p>
       </form>
     `;
     document.getElementById("statut-select").addEventListener("change", (e) => {
@@ -332,7 +336,7 @@
       msg.reponse = text;
       msg.statut = "Répondu";
       msg.statutBadge = "badge-green";
-      alert(`Réponse envoyée à ${msg.parent} (démonstration — pas encore connectée à un backend).`);
+      alert(`Réponse envoyée à ${msg.parent} (démonstration : pas encore connectée à un backend).`);
       renderList();
       renderDetail(msg);
       updateStatCounts();

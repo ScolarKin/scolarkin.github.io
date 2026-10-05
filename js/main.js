@@ -45,7 +45,7 @@ const demoForm = document.getElementById("demo-form");
 if (demoForm) {
   demoForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    alert("Merci ! Ce formulaire est une démonstration — le site n'est pas encore connecté à un serveur.");
+    alert("Merci ! Ce formulaire est une démonstration : le site n'est pas encore connecté à un serveur.");
   });
 }
 

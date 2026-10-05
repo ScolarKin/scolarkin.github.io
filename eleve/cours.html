@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Mes cours — Espace Élève ScolarKin</title>
-<link rel="stylesheet" href="../css/styles.css?v=5">
-<link rel="stylesheet" href="../css/app-shell.css?v=6">
+<link rel="stylesheet" href="../css/styles.css?v=6">
+<link rel="stylesheet" href="../css/app-shell.css?v=7">
 <style>
   .course-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .course-card {
@@ -26,6 +26,9 @@
   .course-card .btn { margin-top: auto; align-self: flex-start; }
   @media (max-width: 720px) {
     .course-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 400px) {
+    .course-card .btn { white-space: normal; text-align: center; }
   }
 </style>
 </head>
@@ -66,7 +69,7 @@
           <div class="admin-user-avatar">GM</div>
           <div class="admin-user-info">
             <div class="admin-user-name">Grace Mbuyi</div>
-            <div class="admin-user-role">Élève · 6e A</div>
+            <div class="admin-user-role">Élève de 6e A</div>
           </div>
         </div>
       </div>
@@ -96,7 +99,7 @@
               <span class="badge badge-green">Mathématiques</span>
               <span class="cell-sub">Publié le 24 sept.</span>
             </div>
-            <h3>Chapitre 4 — Fractions et proportions</h3>
+            <h3>Chapitre 4 : Fractions et proportions</h3>
             <div class="cell-sub">Mme J. Kabongo</div>
             <p>Fiche de révision avec exercices corrigés, en vue de l'interrogation du 1er octobre.</p>
             <a href="#" class="btn btn-outline" data-demo-action><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" /></svg>Télécharger le support</a>
@@ -140,7 +143,7 @@
               <span class="badge badge-green">Anglais</span>
               <span class="cell-sub">Publié le 15 sept.</span>
             </div>
-            <h3>Vocabulaire — Family &amp; daily routine</h3>
+            <h3>Vocabulaire : Family &amp; daily routine</h3>
             <div class="cell-sub">M. A. Mbayo</div>
             <p>Liste de vocabulaire illustrée et exercices audio à écouter à la maison.</p>
             <a href="#" class="btn btn-outline" data-demo-action><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" /></svg>Télécharger le support</a>
@@ -153,16 +156,16 @@
             </div>
             <h3>Les institutions de la RDC</h3>
             <div class="cell-sub">Mme G. Ngoyi</div>
-            <p>Support de cours complet — base pour l'exposé oral de fin de trimestre.</p>
+            <p>Support de cours complet, base pour l'exposé oral de fin de trimestre.</p>
             <a href="#" class="btn btn-outline" data-demo-action><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" /></svg>Télécharger le support</a>
           </div>
         </div>
-        <p class="form-note" style="margin-top:16px;">Fonctionnalité de démonstration — les fichiers ne sont pas encore stockés sur un vrai serveur.</p>
+        <p class="form-note" style="margin-top:16px;">Fonctionnalité de démonstration : les fichiers ne sont pas encore stockés sur un vrai serveur.</p>
       </div>
     </main>
   </div>
 </div>
 
-<script src="../js/app-shell.js?v=4"></script>
+<script src="../js/app-shell.js?v=5"></script>
 </body>
 </html>
