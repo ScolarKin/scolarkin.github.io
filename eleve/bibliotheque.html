@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Bibliothèque — Espace Élève ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css?v=6">
+<link rel="stylesheet" href="../css/app-shell.css?v=7">
+<style>
+  .lib-tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--color-border); margin-bottom: 20px; }
+  .lib-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    padding: 10px 2px 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-soft);
+    cursor: pointer;
+  }
+  .lib-tab:hover { color: var(--color-text); }
+  .lib-tab.is-active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+  .lib-tab:focus-visible,
+  .btn.lib-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 4px; }
+
+  .lib-count { font-size: 13px; color: var(--color-text-soft); margin: 0 0 10px; }
+  .lib-list { border-top: 1px solid var(--color-border); }
+  .lib-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .lib-item:last-child { border-bottom: none; }
+  .lib-item-main { display: flex; gap: 16px; flex: 1 1 340px; min-width: 0; }
+  .lib-item-icon { display: flex; flex: 0 0 24px; padding-top: 1px; color: var(--color-primary); }
+  .lib-item-icon .icon { width: 24px; height: 24px; }
+  .lib-item-body { min-width: 0; }
+  .lib-item-title { font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--color-text); margin: 0; }
+  .lib-item-source { font-size: 13px; color: var(--color-text-soft); margin: 2px 0 8px; }
+  .lib-item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .lib-item-detail { font-size: 12.5px; color: var(--color-text-soft); }
+
+  .lib-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-left: 40px; }
+  .lib-size { font-size: 12.5px; color: var(--color-text-soft); white-space: nowrap; margin-right: 4px; }
+  .btn.lib-btn { padding: 7px 14px; font-size: 13.5px; border-width: 1px; }
+  .btn.lib-btn .icon { width: 15px; height: 15px; }
+
+  .lib-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 28px 0 12px; }
+  .lib-empty p { margin: 0; }
+  .lib-note { margin: 18px 0 0; }
+
+  @media (max-width: 400px) {
+    .lib-tabs { gap: 22px; }
+    .lib-actions { padding-left: 0; }
+  }
+</style>
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Mon espace</span>
+      <a href="index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>Tableau de bord</a>
+      <a href="cours.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg></span>Mes cours</a>
+      <a href="bibliotheque.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 6 4 14" /> <path d="M12 6v14" /> <path d="M8 8v12" /> <path d="M4 4v16" /></svg></span>Bibliothèque</a>
+      <a href="notes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></span>Mes notes</a>
+      <a href="presences.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></svg></span>Mes présences</a>
+      <a href="annonces.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /> <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" /> <path d="M8 6v8" /></svg></span>Annonces</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="../index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></span>Retour au site</a>
+      <a href="../connexion.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+        <div>
+          <h1>Bibliothèque</h1>
+          <div class="admin-topbar-sub">Livres et examens mis à disposition par l'école</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">GM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Grace Mbuyi</div>
+            <div class="admin-user-role">Élève de 6e A</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="panel">
+        <div class="lib-tabs" role="tablist" aria-label="Sections de la bibliothèque">
+          <button type="button" class="lib-tab is-active" role="tab" id="tab-livres" data-tab="livres" aria-controls="panel-livres" aria-selected="true">Livres</button>
+          <button type="button" class="lib-tab" role="tab" id="tab-examens" data-tab="examens" aria-controls="panel-examens" aria-selected="false" tabindex="-1">Examens</button>
+        </div>
+
+        <section role="tabpanel" id="panel-livres" aria-labelledby="tab-livres">
+          <div class="toolbar">
+            <div class="search-input">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>
+              <input type="text" id="livres-q" placeholder="Rechercher un livre…" aria-label="Rechercher un livre" autocomplete="off">
+            </div>
+            <div class="toolbar-filters">
+              <select class="select-filter" id="livres-matiere" aria-label="Filtrer par matière">
+                <option value="all">Toutes les matières</option>
+                <option>Mathématiques</option>
+                <option>Français</option>
+                <option>Sciences naturelles</option>
+                <option>Histoire-Géographie</option>
+                <option>Anglais</option>
+                <option>Éducation civique</option>
+              </select>
+              <select class="select-filter" id="livres-niveau" aria-label="Filtrer par niveau">
+                <option value="all">Tous les niveaux</option>
+                <option>6e</option>
+                <option>5e</option>
+              </select>
+            </div>
+          </div>
+          <p class="lib-count" id="livres-count" aria-live="polite"></p>
+          <ul class="lib-list" id="livres-list"></ul>
+        </section>
+
+        <section role="tabpanel" id="panel-examens" aria-labelledby="tab-examens" hidden>
+          <div class="toolbar">
+            <div class="search-input">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>
+              <input type="text" id="examens-q" placeholder="Rechercher une épreuve…" aria-label="Rechercher une épreuve" autocomplete="off">
+            </div>
+            <div class="toolbar-filters">
+              <select class="select-filter" id="examens-matiere" aria-label="Filtrer par matière">
+                <option value="all">Toutes les matières</option>
+                <option>Mathématiques</option>
+                <option>Français</option>
+                <option>Sciences naturelles</option>
+                <option>Histoire-Géographie</option>
+                <option>Anglais</option>
+                <option>Éducation civique</option>
+              </select>
+              <select class="select-filter" id="examens-type" aria-label="Filtrer par type d'épreuve">
+                <option value="all">Tous les types</option>
+                <option>Examen d'État</option>
+                <option>Examen de l'école</option>
+                <option>Épreuve type</option>
+              </select>
+            </div>
+          </div>
+          <p class="lib-count" id="examens-count" aria-live="polite"></p>
+          <ul class="lib-list" id="examens-list"></ul>
+        </section>
+
+        <p class="form-note lib-note">Contenu de démonstration : les fichiers ne sont pas encore stockés sur un vrai serveur.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js?v=5"></script>
+<script>
+(function () {
+  const svg = (inner) => '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  const ICON_BOOK = svg('<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />');
+  const ICON_FILE = svg('<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" />');
+  const ICON_DOWNLOAD = svg('<path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" />');
+
+  const LIVRES = [
+    { id: "l1", titre: "Mathématiques : manuel de l'élève", par: "Mme J. Kabongo", matiere: "Mathématiques", niveau: "6e", pages: 148, taille: "12,4 Mo" },
+    { id: "l2", titre: "Géométrie plane : cahier d'exercices", par: "Mme J. Kabongo", matiere: "Mathématiques", niveau: "5e", pages: 64, taille: "5,2 Mo" },
+    { id: "l3", titre: "Grammaire française : règles et exercices", par: "M. P. Ilunga", matiere: "Français", niveau: "Tous niveaux", pages: 210, taille: "18,7 Mo" },
+    { id: "l4", titre: "Conjugaison : tableaux des verbes", par: "M. P. Ilunga", matiere: "Français", niveau: "6e", pages: 48, taille: "3,1 Mo" },
+    { id: "l5", titre: "Contes et légendes d'Afrique centrale", par: "la bibliothèque de l'école", matiere: "Français", niveau: "6e", pages: 88, taille: "6,4 Mo" },
+    { id: "l6", titre: "Sciences naturelles : le corps humain", par: "Mme S. Mwamba", matiere: "Sciences naturelles", niveau: "6e", pages: 96, taille: "14,8 Mo" },
+    { id: "l7", titre: "Atlas de la République démocratique du Congo", par: "la bibliothèque de l'école", matiere: "Histoire-Géographie", niveau: "Tous niveaux", pages: 72, taille: "22,5 Mo" },
+    { id: "l8", titre: "Histoire de l'Afrique centrale : repères et cartes", par: "M. E. Kasongo", matiere: "Histoire-Géographie", niveau: "5e", pages: 120, taille: "9,6 Mo" },
+    { id: "l9", titre: "Anglais : vocabulaire illustré", par: "M. A. Mbayo", matiere: "Anglais", niveau: "6e", pages: 56, taille: "8,3 Mo" },
+    { id: "l10", titre: "Éducation civique : les institutions de la RDC", par: "Mme G. Ngoyi", matiere: "Éducation civique", niveau: "6e", pages: 40, taille: "2,9 Mo" },
+  ];
+
+  const EXAMENS = [
+    { id: "e1", titre: "Mathématiques, Examen d'État 2025", par: "la bibliothèque de l'école", matiere: "Mathématiques", type: "Examen d'État", duree: "3 h", corrige: true, taille: "2,1 Mo" },
+    { id: "e2", titre: "Français, Examen d'État 2025", par: "la bibliothèque de l'école", matiere: "Français", type: "Examen d'État", duree: "3 h", corrige: true, taille: "1,8 Mo" },
+    { id: "e3", titre: "Sciences naturelles, Examen d'État 2024", par: "la bibliothèque de l'école", matiere: "Sciences naturelles", type: "Examen d'État", duree: "3 h", corrige: false, taille: "2,4 Mo" },
+    { id: "e4", titre: "Histoire-Géographie, Examen d'État 2024", par: "la bibliothèque de l'école", matiere: "Histoire-Géographie", type: "Examen d'État", duree: "2 h", corrige: true, taille: "1,6 Mo" },
+    { id: "e5", titre: "Anglais, Examen d'État 2023", par: "la bibliothèque de l'école", matiere: "Anglais", type: "Examen d'État", duree: "2 h", corrige: false, taille: "1,2 Mo" },
+    { id: "e6", titre: "Mathématiques, examen du 1er trimestre", par: "Mme J. Kabongo", matiere: "Mathématiques", type: "Examen de l'école", duree: "2 h", corrige: true, taille: "0,9 Mo" },
+    { id: "e7", titre: "Français, examen du 1er trimestre", par: "M. P. Ilunga", matiere: "Français", type: "Examen de l'école", duree: "2 h", corrige: true, taille: "0,8 Mo" },
+    { id: "e8", titre: "Mathématiques, épreuve type : fractions et proportions", par: "Mme J. Kabongo", matiere: "Mathématiques", type: "Épreuve type", duree: "1 h", corrige: true, taille: "0,6 Mo" },
+    { id: "e9", titre: "Sciences naturelles, épreuve type : le système digestif", par: "Mme S. Mwamba", matiere: "Sciences naturelles", type: "Épreuve type", duree: "1 h", corrige: false, taille: "0,7 Mo" },
+    { id: "e10", titre: "Éducation civique, épreuve type : les institutions de la RDC", par: "Mme G. Ngoyi", matiere: "Éducation civique", type: "Épreuve type", duree: "1 h", corrige: true, taille: "0,5 Mo" },
+  ];
+
+  const DEFAULTS = {
+    livres: { q: "", matiere: "all", niveau: "all" },
+    examens: { q: "", matiere: "all", type: "all" },
+  };
+  const state = { livres: { ...DEFAULTS.livres }, examens: { ...DEFAULTS.examens } };
+
+  const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = (str) => String(str).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const badge = (text, cls) => '<span class="badge ' + cls + '">' + escapeHtml(text) + "</span>";
+
+  function countText(n, total, one, many) {
+    return n === total ? n + " " + (n < 2 ? one : many) : n + " sur " + total + " " + many;
+  }
+
+  function emptyState(kind, message) {
+    return '<li class="lib-empty"><p>' + message + '</p><button type="button" class="btn btn-outline lib-btn" data-reset="' + kind + '">Réinitialiser les filtres</button></li>';
+  }
+
+  function renderLivres() {
+    const f = state.livres;
+    const q = norm(f.q.trim());
+    const items = LIVRES.filter((b) =>
+      (f.matiere === "all" || b.matiere === f.matiere) &&
+      (f.niveau === "all" || b.niveau === f.niveau || b.niveau === "Tous niveaux") &&
+      (!q || norm(b.titre + " " + b.matiere + " " + b.par).includes(q))
+    );
+    document.getElementById("livres-count").textContent = countText(items.length, LIVRES.length, "livre", "livres");
+    document.getElementById("livres-list").innerHTML = items.length
+      ? items.map((b) =>
+          '<li class="lib-item">' +
+            '<div class="lib-item-main">' +
+              '<span class="lib-item-icon">' + ICON_BOOK + "</span>" +
+              '<div class="lib-item-body">' +
+                '<p class="lib-item-title">' + escapeHtml(b.titre) + "</p>" +
+                '<p class="lib-item-source">Ajouté par ' + escapeHtml(b.par) + "</p>" +
+                '<div class="lib-item-meta">' + badge(b.matiere, "badge-gray") + badge(b.niveau, "badge-gray") + '<span class="lib-item-detail">' + b.pages + " pages</span></div>" +
+              "</div>" +
+            "</div>" +
+            '<div class="lib-actions">' +
+              '<span class="lib-size">PDF, ' + escapeHtml(b.taille) + "</span>" +
+              '<button type="button" class="btn btn-outline lib-btn" data-download="' + b.id + '" data-part="livre" aria-label="Télécharger : ' + escapeHtml(b.titre) + '">' + ICON_DOWNLOAD + "Télécharger</button>" +
+            "</div>" +
+          "</li>"
+        ).join("")
+      : emptyState("livres", "Aucun livre ne correspond à votre recherche.");
+  }
+
+  function renderExamens() {
+    const f = state.examens;
+    const q = norm(f.q.trim());
+    const items = EXAMENS.filter((x) =>
+      (f.matiere === "all" || x.matiere === f.matiere) &&
+      (f.type === "all" || x.type === f.type) &&
+      (!q || norm(x.titre + " " + x.type + " " + x.par).includes(q))
+    );
+    document.getElementById("examens-count").textContent = countText(items.length, EXAMENS.length, "document", "documents");
+    document.getElementById("examens-list").innerHTML = items.length
+      ? items.map((x) =>
+          '<li class="lib-item">' +
+            '<div class="lib-item-main">' +
+              '<span class="lib-item-icon">' + ICON_FILE + "</span>" +
+              '<div class="lib-item-body">' +
+                '<p class="lib-item-title">' + escapeHtml(x.titre) + "</p>" +
+                '<p class="lib-item-source">Ajouté par ' + escapeHtml(x.par) + "</p>" +
+                '<div class="lib-item-meta">' + badge(x.type, "badge-gray") + (x.corrige ? badge("Corrigé disponible", "badge-green") : "") + '<span class="lib-item-detail">Durée : ' + escapeHtml(x.duree) + "</span></div>" +
+              "</div>" +
+            "</div>" +
+            '<div class="lib-actions">' +
+              '<span class="lib-size">PDF, ' + escapeHtml(x.taille) + "</span>" +
+              '<button type="button" class="btn btn-outline lib-btn" data-download="' + x.id + '" data-part="epreuve" aria-label="Télécharger l\'épreuve : ' + escapeHtml(x.titre) + '">' + ICON_DOWNLOAD + "Épreuve</button>" +
+              (x.corrige ? '<button type="button" class="btn btn-outline lib-btn" data-download="' + x.id + '" data-part="corrige" aria-label="Télécharger le corrigé : ' + escapeHtml(x.titre) + '">' + ICON_DOWNLOAD + "Corrigé</button>" : "") +
+            "</div>" +
+          "</li>"
+        ).join("")
+      : emptyState("examens", "Aucune épreuve ne correspond à votre recherche.");
+  }
+
+  const RENDER = { livres: renderLivres, examens: renderExamens };
+
+  function resetFilters(kind) {
+    state[kind] = { ...DEFAULTS[kind] };
+    document.getElementById(kind + "-q").value = "";
+    document.getElementById(kind + "-matiere").value = "all";
+    document.getElementById(kind + (kind === "livres" ? "-niveau" : "-type")).value = "all";
+    RENDER[kind]();
+  }
+
+  document.getElementById("livres-q").addEventListener("input", (e) => { state.livres.q = e.target.value; renderLivres(); });
+  document.getElementById("livres-matiere").addEventListener("change", (e) => { state.livres.matiere = e.target.value; renderLivres(); });
+  document.getElementById("livres-niveau").addEventListener("change", (e) => { state.livres.niveau = e.target.value; renderLivres(); });
+  document.getElementById("examens-q").addEventListener("input", (e) => { state.examens.q = e.target.value; renderExamens(); });
+  document.getElementById("examens-matiere").addEventListener("change", (e) => { state.examens.matiere = e.target.value; renderExamens(); });
+  document.getElementById("examens-type").addEventListener("change", (e) => { state.examens.type = e.target.value; renderExamens(); });
+
+  document.addEventListener("click", (e) => {
+    const reset = e.target.closest("[data-reset]");
+    if (reset) {
+      resetFilters(reset.dataset.reset);
+      return;
+    }
+    const dl = e.target.closest("[data-download]");
+    if (!dl) return;
+    const item = LIVRES.concat(EXAMENS).find((x) => x.id === dl.dataset.download);
+    if (!item) return;
+    const what = dl.dataset.part === "corrige" ? "du corrigé de" : dl.dataset.part === "epreuve" ? "de l'épreuve" : "de";
+    alert("Téléchargement " + what + " « " + item.titre + " » (démonstration : le fichier n'est pas encore stocké sur un serveur).");
+  });
+
+  const tabs = Array.from(document.querySelectorAll(".lib-tab"));
+  function activate(name, options) {
+    const opts = options || {};
+    tabs.forEach((t) => {
+      const on = t.dataset.tab === name;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById("panel-" + t.dataset.tab).hidden = !on;
+      if (on && opts.focus) t.focus();
+    });
+    if (opts.updateUrl) history.replaceState(null, "", "#" + name);
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => activate(tab.dataset.tab, { updateUrl: true }));
+    tab.addEventListener("keydown", (e) => {
+      let next = null;
+      if (e.key === "ArrowRight") next = (i + 1) % tabs.length;
+      else if (e.key === "ArrowLeft") next = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = tabs.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      activate(tabs[next].dataset.tab, { focus: true, updateUrl: true });
+    });
+  });
+
+  const fromHash = () => {
+    const name = location.hash.replace("#", "");
+    return name === "livres" || name === "examens" ? name : null;
+  };
+  window.addEventListener("hashchange", () => { const n = fromHash(); if (n) activate(n); });
+
+  renderLivres();
+  renderExamens();
+  activate(fromHash() || "livres");
+})();
+</script>
+</body>
+</html>
