@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Encaissements — Admin ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css?v=6">
+<link rel="stylesheet" href="../css/app-shell.css?v=7">
+<style>
+  .enc-note { margin: 0 0 18px; }
+  .enc-table td { vertical-align: middle; }
+  .enc-table td.enc-date { white-space: nowrap; }
+  .enc-ref { font-family: Consolas, ui-monospace, monospace; font-size: 13px; color: var(--color-text); letter-spacing: 0.02em; white-space: nowrap; }
+  .enc-row { cursor: pointer; }
+  .enc-row:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  .enc-row.is-selected { background: var(--color-primary-light); }
+  .enc-flags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .enc-flags .badge { white-space: nowrap; }
+  .enc-block { margin-top: 20px; }
+  .enc-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; align-items: start; }
+  .enc-two > * { min-width: 0; }
+  .enc-kv { display: grid; grid-template-columns: 110px 1fr; gap: 8px 14px; font-size: 14px; margin: 0 0 18px; }
+  .enc-kv dt { color: var(--color-text-soft); }
+  .enc-kv dd { margin: 0; color: var(--color-text); font-weight: 600; overflow-wrap: anywhere; }
+  .check-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .check-item { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13.5px; }
+  .check-item .icon { width: 20px; height: 20px; margin-top: 1px; }
+  .check-item strong { display: block; font-size: 14px; color: var(--color-text); }
+  .check-item span { color: var(--color-text-muted); }
+  .check-item.is-ok .icon { color: var(--color-accent-dark); }
+  .check-item.is-warn .icon { color: #B45309; }
+  .check-item.is-err .icon { color: var(--color-danger); }
+  .enc-form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .enc-form-grid .wide { grid-column: 1 / -1; }
+  .enc-form .field { min-width: 0; }
+  .enc-form input, .enc-form select { width: 100%; min-width: 0; }
+  .enc-msg { font-size: 13.5px; line-height: 1.5; padding: 10px 12px; border-radius: var(--radius-sm); margin: 0; }
+  .enc-msg.is-ok { background: #ECFDF5; color: var(--color-accent-dark); }
+  .enc-msg.is-warn { background: #FFFBEB; color: #B45309; }
+  .enc-msg.is-err { background: #FEF2F2; color: var(--color-danger); }
+  .enc-empty { font-size: 14px; color: var(--color-text-soft); margin: 0; }
+  @media (max-width: 1100px) { .enc-two { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .enc-form-grid { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Général</span>
+      <a href="index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>Tableau de bord</a>
+      <span class="admin-nav-label">Gestion</span>
+      <a href="eleves.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span>Élèves</a>
+      <a href="classes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M18 4.933V21" /> <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /> <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /> <path d="M6 4.933V21" /> <circle cx="12" cy="9" r="2" /></svg></span>Classes</a>
+      <a href="professeurs.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></svg></span>Professeurs</a>
+      <span class="admin-nav-label">Pédagogie</span>
+      <a href="notes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></span>Notes &amp; bulletins</a>
+      <a href="presences.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></svg></span>Présences</a>
+      <span class="admin-nav-label">Communication</span>
+      <a href="messages.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></span>Messages<span class="nav-count-badge" id="nav-unread-badge">2</span></a>
+      <span class="admin-nav-label">Finances</span>
+      <a href="encaissements.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /> <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg></span>Encaissements</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="#" data-demo-action><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg></span>Paramètres</a>
+      <a href="../connexion.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+        <div>
+          <h1>Encaissements</h1>
+          <div class="admin-topbar-sub">Paiements reçus sur le numéro de l'école, à rapprocher des frais</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="icon-btn" aria-label="Notifications"><span class="dot"></span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></button>
+        <div class="admin-user">
+          <div class="admin-user-avatar">DM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Daniel Makolo</div>
+            <div class="admin-user-role">Administrateur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <p class="form-note enc-note">Maquette : toutes les données sont fictives, aucun paiement réel n'est enregistré. Dans le tableau, les numéros sont masqués.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /> <path d="M12 17V7" /> <path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /></svg></div></div>
+          <div class="stat-value" id="stat-nb">—</div>
+          <div class="stat-label">Paiements enregistrés</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /> <path d="M15 6h1v4" /> <path d="m6.134 14.768.866-.5 2 3.464" /> <circle cx="16" cy="8" r="6" /></svg></div></div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-label">Montant total reçu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon" style="color:var(--color-accent-dark);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></svg></div></div>
+          <div class="stat-value" id="stat-ok">—</div>
+          <div class="stat-label">Associés et conformes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-icon" style="color:#B45309;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg></div></div>
+          <div class="stat-value" id="stat-warn">—</div>
+          <div class="stat-label">À vérifier</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>Paiements reçus</h2><p>Cliquez sur une ligne pour voir ses contrôles.</p></div></div>
+        <div class="toolbar">
+          <div class="search-input">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>
+            <input type="text" id="enc-q" placeholder="Référence, élève ou nom…" aria-label="Rechercher un paiement" autocomplete="off">
+          </div>
+          <div class="toolbar-filters">
+            <select class="select-filter" id="enc-filtre" aria-label="Filtrer par statut">
+              <option value="all">Tous les paiements</option>
+              <option value="ok">Associés</option>
+              <option value="warn">À vérifier</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table enc-table">
+            <thead>
+              <tr><th>Reçu le</th><th>Référence</th><th>Montant</th><th>Expéditeur</th><th>Nom affiché</th><th>Solde</th><th>Élève</th><th>Contrôles</th></tr>
+            </thead>
+            <tbody id="enc-rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="enc-two">
+        <div class="enc-side">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Détail du paiement</h2></div></div>
+            <div id="enc-detail"></div>
+          </div>
+        </div>
+
+        <div class="enc-side">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Enregistrer un SMS reçu</h2><p>Recopiez les champs du SMS de l'opérateur.</p></div></div>
+            <form id="enc-form" class="enc-form" autocomplete="off">
+              <div class="enc-form-grid">
+                <div class="field wide">
+                  <label for="f-ref">Référence</label>
+                  <input type="text" id="f-ref" name="ref" placeholder="ex. DEMX1Y2Z3W" maxlength="12" required>
+                </div>
+                <div class="field">
+                  <label for="f-date">Date et heure</label>
+                  <input type="datetime-local" id="f-date" name="date" required>
+                </div>
+                <div class="field">
+                  <label for="f-montant">Montant (Fc)</label>
+                  <input type="number" id="f-montant" name="montant" min="1" step="1" required>
+                </div>
+                <div class="field">
+                  <label for="f-tel">Numéro expéditeur</label>
+                  <input type="tel" id="f-tel" name="tel" placeholder="243…" required>
+                </div>
+                <div class="field">
+                  <label for="f-nom">Nom affiché</label>
+                  <input type="text" id="f-nom" name="nom" required>
+                </div>
+                <div class="field">
+                  <label for="f-solde">Solde disponible (Fc)</label>
+                  <input type="number" id="f-solde" name="solde" min="0" step="1" required>
+                </div>
+                <div class="field">
+                  <label for="f-eleve">Élève concerné</label>
+                  <select id="f-eleve" name="eleve"></select>
+                </div>
+              </div>
+              <p class="enc-msg" id="enc-msg" role="status" hidden></p>
+              <button type="submit" class="btn btn-primary btn-block">Enregistrer et vérifier</button>
+              <p class="form-note" style="text-align:center;">Saisie manuelle pour la maquette. En production, ces champs viendraient directement du SMS.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel enc-block">
+        <div class="panel-head"><div><h2>Situation des frais</h2><p>Montants payés par élève, à partir des paiements associés.</p></div></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Élève</th><th>Frais</th><th>Payé</th><th>Reste</th></tr></thead>
+            <tbody id="enc-situation"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js?v=5"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const svg = (inner) => '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + "</svg>";
+  const ICON = {
+    ok: svg('<circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" />'),
+    warn: svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" />'),
+    err: svg('<circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" />'),
+  };
+  const CLASSE = { ok: "is-ok", warn: "is-warn", err: "is-err" };
+  const BADGES = {
+    ref: ["Référence en double", "badge-red"],
+    solde: ["Solde incohérent", "badge-red"],
+    eleve: ["Non associé", "badge-gray"],
+    frais: ["Frais non soldés", "badge-amber"],
+    tel: ["Numéro différent", "badge-amber"],
+  };
+
+  const STUDENTS = [
+    { id: "ELV-2026-0847", nom: "Grace Mbuyi", frais: 250000, tel: "243810000101" },
+    { id: "ELV-2026-0851", nom: "Joël Kalombo", frais: 250000, tel: "243990000102" },
+    { id: "ELV-2026-0853", nom: "Esther Ntumba", frais: 250000, tel: "243850000103" },
+  ];
+
+  const PAIEMENTS = [
+    { ref: "DEM4T7QK2P", date: "27-09-2026 08:15:10", montant: 250000, tel: "243810000101", nom: "FELIX MBUYI", solde: 370000, eleve: "ELV-2026-0847" },
+    { ref: "DEM9XB3LTA", date: "27-09-2026 10:42:03", montant: 100000, tel: "243990000199", nom: "PERSONNE EXEMPLE", solde: 470000, eleve: "ELV-2026-0851" },
+    { ref: "DEMK2R8ZW1", date: "28-09-2026 09:05:47", montant: 250000, tel: "243850000103", nom: "MME EXEMPLE", solde: 720000, eleve: "ELV-2026-0853" },
+    { ref: "DEMZ5N0AQ7", date: "28-09-2026 14:20:55", montant: 150000, tel: "243810000101", nom: "FELIX MBUYI", solde: 850000, eleve: "" },
+  ];
+
+  const state = { sel: 1 };
+
+  const fmt = (n) => n.toLocaleString("fr-FR").replace(/[\s  ]/g, ".") + " Fc";
+  const masque = (tel) => "•••• " + tel.slice(-4);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const fmtDate = (v) => {
+    const [d, t] = v.split("T");
+    const [y, m, j] = d.split("-");
+    return j + "-" + m + "-" + y + " " + (t.length === 5 ? t + ":00" : t);
+  };
+  const eleveById = (id) => STUDENTS.find((s) => s.id === id) || null;
+  const payeEleve = (id) => PAIEMENTS.filter((p) => p.eleve === id).reduce((s, p) => s + p.montant, 0);
+
+  function controles(i) {
+    const p = PAIEMENTS[i];
+    const eleve = eleveById(p.eleve);
+    const items = [];
+    const doublons = PAIEMENTS.filter((x) => x.ref === p.ref).length;
+    items.push({ id: "ref", etat: doublons === 1 ? "ok" : "err", titre: "Référence unique", texte: doublons === 1 ? "Première fois que cette référence est enregistrée." : "Cette référence est déjà enregistrée : le paiement ne peut pas être compté deux fois." });
+    if (!eleve) {
+      items.push({ id: "eleve", etat: "warn", titre: "Élève associé", texte: "Aucun élève choisi : ce paiement reste à classer." });
+    } else {
+      const reste = eleve.frais - payeEleve(eleve.id);
+      items.push({ id: "frais", etat: reste <= 0 ? "ok" : "warn", titre: "Frais de l'élève", texte: reste <= 0 ? "Frais soldés pour " + eleve.nom + "." : "Il reste " + fmt(reste) + " à payer pour " + eleve.nom + "." });
+      const telOk = p.tel === eleve.tel;
+      items.push({ id: "tel", etat: telOk ? "ok" : "warn", titre: "Numéro du parent", texte: telOk ? "Le numéro correspond à celui enregistré pour l'élève." : "Numéro différent du numéro enregistré. Ce n'est pas bloquant : à confirmer avec le parent." });
+    }
+    if (i === 0) {
+      items.push({ id: "solde", etat: "ok", titre: "Solde", texte: "Premier SMS de la liste : rien à comparer." });
+    } else {
+      const attendu = PAIEMENTS[i - 1].solde + p.montant;
+      const ok = attendu === p.solde;
+      items.push({ id: "solde", etat: ok ? "ok" : "err", titre: "Solde", texte: ok ? "Solde précédent + montant = solde affiché." : "Attendu " + fmt(attendu) + ", SMS : " + fmt(p.solde) + ". Un SMS manque peut-être, ou une sortie d'argent n'a pas été notée." });
+    }
+    return items;
+  }
+
+  const badgesOf = (items) => {
+    const alertes = items.filter((c) => c.etat !== "ok");
+    if (!alertes.length) return '<span class="badge badge-green">Associé</span>';
+    return alertes.map((c) => '<span class="badge ' + BADGES[c.id][1] + '">' + BADGES[c.id][0] + "</span>").join("");
+  };
+
+  function renderStats() {
+    const associes = PAIEMENTS.map((_, i) => controles(i)).filter((items) => items.every((c) => c.etat === "ok")).length;
+    $("stat-nb").textContent = PAIEMENTS.length;
+    $("stat-total").textContent = fmt(PAIEMENTS.reduce((s, p) => s + p.montant, 0));
+    $("stat-ok").textContent = associes;
+    $("stat-warn").textContent = PAIEMENTS.length - associes;
+  }
+
+  function renderTable() {
+    const q = norm($("enc-q").value.trim());
+    const filtre = $("enc-filtre").value;
+    const lignes = PAIEMENTS.map((p, i) => ({ p, i, items: controles(i) }))
+      .filter(({ p, items }) => {
+        const aVerifier = items.some((c) => c.etat !== "ok");
+        if (filtre === "ok" && aVerifier) return false;
+        if (filtre === "warn" && !aVerifier) return false;
+        if (q) {
+          const eleve = eleveById(p.eleve);
+          if (!norm([p.ref, p.nom, eleve ? eleve.nom : ""].join(" ")).includes(q)) return false;
+        }
+        return true;
+      })
+      .reverse();
+    $("enc-rows").innerHTML = lignes.length
+      ? lignes.map(({ p, i, items }) => {
+          const eleve = eleveById(p.eleve);
+          return '<tr class="enc-row' + (i === state.sel ? " is-selected" : "") + '" data-i="' + i + '" tabindex="0">' +
+            '<td class="cell-sub enc-date">' + esc(p.date) + "</td>" +
+            '<td class="enc-ref">' + esc(p.ref) + "</td>" +
+            "<td>" + fmt(p.montant) + "</td>" +
+            '<td class="cell-sub">' + masque(p.tel) + "</td>" +
+            "<td>" + esc(p.nom) + "</td>" +
+            "<td>" + fmt(p.solde) + "</td>" +
+            "<td>" + (eleve ? esc(eleve.nom) : '<span class="cell-sub">—</span>') + "</td>" +
+            '<td><div class="enc-flags">' + badgesOf(items) + "</div></td>" +
+            "</tr>";
+        }).join("")
+      : '<tr><td colspan="8" class="cell-sub">Aucun paiement ne correspond à ce filtre.</td></tr>';
+  }
+
+  function renderSituation() {
+    $("enc-situation").innerHTML = STUDENTS.map((s) => {
+      const paye = payeEleve(s.id);
+      const reste = Math.max(0, s.frais - paye);
+      return '<tr><td class="cell-name">' + esc(s.nom) + "</td><td>" + fmt(s.frais) + "</td><td>" + fmt(paye) + "</td><td>" +
+        (reste ? fmt(reste) : '<span class="badge badge-green">Soldé</span>') + "</td></tr>";
+    }).join("");
+  }
+
+  function renderDetail() {
+    const box = $("enc-detail");
+    if (state.sel === null || !PAIEMENTS[state.sel]) {
+      box.innerHTML = '<p class="enc-empty">Sélectionnez un paiement dans la liste pour voir ses contrôles.</p>';
+      return;
+    }
+    const p = PAIEMENTS[state.sel];
+    const eleve = eleveById(p.eleve);
+    const items = controles(state.sel);
+    box.innerHTML =
+      '<dl class="enc-kv">' +
+        "<dt>Référence</dt><dd>" + esc(p.ref) + "</dd>" +
+        "<dt>Reçu le</dt><dd>" + esc(p.date) + "</dd>" +
+        "<dt>Montant</dt><dd>" + fmt(p.montant) + "</dd>" +
+        "<dt>Expéditeur</dt><dd>" + masque(p.tel) + " · " + esc(p.nom) + "</dd>" +
+        "<dt>Élève</dt><dd>" + (eleve ? esc(eleve.nom) + " (" + eleve.id + ")" : "Non associé") + "</dd>" +
+      "</dl>" +
+      '<ul class="check-list">' +
+        items.map((c) => '<li class="check-item ' + CLASSE[c.etat] + '">' + ICON[c.etat] + "<div><strong>" + c.titre + "</strong><span>" + esc(c.texte) + "</span></div></li>").join("") +
+      "</ul>";
+  }
+
+  function renderAll() {
+    renderStats();
+    renderTable();
+    renderSituation();
+    renderDetail();
+  }
+
+  function message(type, texte) {
+    const m = $("enc-msg");
+    m.className = "enc-msg is-" + type;
+    m.textContent = texte;
+    m.hidden = false;
+  }
+
+  const vide = document.createElement("option");
+  vide.value = "";
+  vide.textContent = "Non associé (à classer)";
+  $("f-eleve").appendChild(vide);
+  STUDENTS.forEach((s) => {
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = s.nom + " (" + s.id + ")";
+    $("f-eleve").appendChild(opt);
+  });
+
+  $("enc-q").addEventListener("input", renderTable);
+  $("enc-filtre").addEventListener("change", renderTable);
+
+  const selectionner = (tr) => {
+    state.sel = Number(tr.dataset.i);
+    renderAll();
+  };
+  $("enc-rows").addEventListener("click", (e) => {
+    const tr = e.target.closest("tr[data-i]");
+    if (tr) selectionner(tr);
+  });
+  $("enc-rows").addEventListener("keydown", (e) => {
+    const tr = e.target.closest("tr[data-i]");
+    if (tr && e.key === "Enter") selectionner(tr);
+  });
+
+  $("enc-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const v = (nom) => f.elements[nom].value;
+    const ref = v("ref").trim().toUpperCase();
+    if (!/^[A-Z0-9]{8,12}$/.test(ref)) {
+      message("err", "La référence doit comporter entre 8 et 12 lettres ou chiffres, sans espace.");
+      return;
+    }
+    if (PAIEMENTS.some((p) => p.ref === ref)) {
+      message("err", "La référence " + ref + " est déjà enregistrée. Ce paiement ne peut pas être compté deux fois.");
+      return;
+    }
+    PAIEMENTS.push({
+      ref,
+      date: fmtDate(v("date")),
+      montant: Number(v("montant")),
+      tel: v("tel").replace(/\D/g, ""),
+      nom: v("nom").trim().toUpperCase(),
+      solde: Number(v("solde")),
+      eleve: v("eleve"),
+    });
+    state.sel = PAIEMENTS.length - 1;
+    const alertes = controles(state.sel).filter((c) => c.etat !== "ok");
+    if (alertes.length) {
+      message("warn", "Enregistré avec des points à vérifier : " + alertes.map((c) => BADGES[c.id][0].toLowerCase()).join(", ") + ".");
+    } else {
+      message("ok", "Enregistré. Tous les contrôles sont passés.");
+    }
+    f.reset();
+    $("f-eleve").value = "";
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
