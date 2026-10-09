@@ -44,6 +44,10 @@
   .proof-kv dd { margin: 0; color: var(--color-text); font-weight: 600; overflow-wrap: anywhere; }
   .pay-ref { font-family: Consolas, ui-monospace, monospace; font-size: 13px; letter-spacing: 0.02em; white-space: nowrap; }
   .pay-table td, .pay-table th { vertical-align: middle; white-space: nowrap; }
+  .pay-ecole { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: 14px; }
+  .pay-ecole span { display: block; font-size: 13px; color: var(--color-text-soft); }
+  .pay-ecole strong { display: block; font-size: 24px; color: var(--color-text); letter-spacing: 0.02em; margin-top: 2px; white-space: nowrap; }
+  .pay-steps { margin: 0 0 12px; padding-left: 20px; font-size: 14px; color: var(--color-text); display: flex; flex-direction: column; gap: 6px; }
   @media (max-width: 1100px) { .pay-two { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 560px) {
     .pay-frais { grid-template-columns: minmax(0, 1fr); }
@@ -116,6 +120,23 @@
           <div><span>Reste à payer</span><strong id="pay-reste">—</strong></div>
         </div>
         <div class="pay-bar" aria-hidden="true"><span id="pay-bar"></span></div>
+      </div>
+
+      <div class="panel" style="margin-bottom:20px;">
+        <div class="panel-head"><div><h2>Où envoyer l'argent</h2><p>Envoyez les frais depuis votre téléphone mobile money, uniquement sur ce numéro.</p></div></div>
+        <div class="pay-ecole">
+          <div>
+            <span>Numéro de l'école</span>
+            <strong id="ecole-num">243 80 000 0000</strong>
+          </div>
+          <button type="button" class="btn btn-outline" id="ecole-copier">Copier le numéro</button>
+        </div>
+        <ol class="pay-steps">
+          <li>Envoyez le montant des frais restants sur ce numéro.</li>
+          <li>Repérez la référence dans le SMS de confirmation de l'opérateur.</li>
+          <li>Déclarez le paiement ci-dessous avec cette référence.</li>
+        </ol>
+        <p class="pay-hint">Numéro fictif pour la maquette. Le secrétariat confirmera le vrai numéro. Méfiez-vous de tout numéro reçu par message ou par appel qui ne vient pas de l'école.</p>
       </div>
 
       <div class="pay-two">
@@ -194,6 +215,7 @@
 
   const ENFANT = { id: "ELV-2026-0847", nom: "Grace Mbuyi", classe: "6e A", frais: 250000 };
   const PARENT = { nom: "Félix Mbuyi", tel: "243810000101" };
+  const ECOLE = { numero: "243800000000", affiche: "243 80 000 0000" };
 
   const JOURNAL = [
     { ref: "DEM2A9KQ7T", montant: 100000, tel: "243810000101", nom: "FELIX MBUYI", eleve: "ELV-2026-0847" },
@@ -305,6 +327,7 @@
           "<dt>Parent</dt><dd>" + esc(PARENT.nom) + "</dd>" +
           "<dt>Élève</dt><dd>" + esc(ENFANT.nom) + " (" + ENFANT.id + "), " + esc(ENFANT.classe) + "</dd>" +
           "<dt>Montant</dt><dd>" + fmt(p.montant) + "</dd>" +
+          "<dt>Envoyé au numéro</dt><dd>" + ECOLE.affiche + " (école)</dd>" +
           "<dt>Référence</dt><dd class=\"pay-ref\">" + esc(p.ref) + "</dd>" +
           "<dt>Frais concernés</dt><dd>2e trimestre</dd>" +
         "</dl>" +
@@ -364,6 +387,21 @@
 
   $("pay-preuve").addEventListener("click", (e) => {
     if (e.target.closest("[data-imprimer]")) window.print();
+  });
+
+  $("ecole-copier").addEventListener("click", (e) => {
+    const b = e.currentTarget;
+    if (!navigator.clipboard) {
+      b.textContent = "Copie impossible : sélectionnez le numéro";
+      return;
+    }
+    navigator.clipboard.writeText(ECOLE.numero).then(
+      () => {
+        b.textContent = "Numéro copié";
+        setTimeout(() => { b.textContent = "Copier le numéro"; }, 2000);
+      },
+      () => { b.textContent = "Copie impossible : sélectionnez le numéro"; }
+    );
   });
 
   renderAll();
