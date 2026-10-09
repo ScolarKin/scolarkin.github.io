@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Paiement des frais — Espace Parent ScolarKin</title>
+<link rel="stylesheet" href="../css/styles.css?v=6">
+<link rel="stylesheet" href="../css/app-shell.css?v=7">
+<style>
+  .pay-note { margin: 0 0 18px; }
+  .pay-frais { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+  .pay-frais > div { min-width: 0; }
+  .pay-frais span { display: block; font-size: 13px; color: var(--color-text-soft); }
+  .pay-frais strong { display: block; font-size: 20px; color: var(--color-text); margin-top: 2px; }
+  .pay-bar { height: 8px; border-radius: 999px; background: var(--color-surface-alt); border: 1px solid var(--color-border); overflow: hidden; }
+  .pay-bar > span { display: block; height: 100%; width: 0; background: var(--color-accent); }
+  .pay-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; align-items: start; }
+  .pay-two > * { min-width: 0; }
+  .pay-side { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .pay-form { display: flex; flex-direction: column; gap: 14px; }
+  .pay-form input, .pay-form select { width: 100%; min-width: 0; }
+  .pay-hint { font-size: 12.5px; color: var(--color-text-soft); margin: 6px 0 0; line-height: 1.5; }
+  .pay-msg { font-size: 13.5px; line-height: 1.5; padding: 10px 12px; border-radius: var(--radius-sm); margin: 0 0 14px; }
+  .pay-msg.is-ok { background: #ECFDF5; color: var(--color-accent-dark); }
+  .pay-msg.is-warn { background: #FFFBEB; color: #B45309; }
+  .pay-msg.is-err { background: #FEF2F2; color: var(--color-danger); }
+  .pay-empty { font-size: 14px; color: var(--color-text-soft); margin: 0; }
+  .pay-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .pay-check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13.5px; }
+  .pay-check .icon { width: 20px; height: 20px; margin-top: 1px; }
+  .pay-check strong { display: block; font-size: 14px; color: var(--color-text); }
+  .pay-check span { color: var(--color-text-muted); }
+  .pay-check.is-ok .icon { color: var(--color-accent-dark); }
+  .pay-check.is-warn .icon { color: #B45309; }
+  .pay-check.is-err .icon { color: var(--color-danger); }
+  .proof { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 20px; }
+  .proof-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .proof-head strong { font-size: 16px; color: var(--color-text); }
+  .proof-kv { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 8px 14px; font-size: 14px; margin: 0 0 14px; }
+  .proof-kv dt { color: var(--color-text-soft); }
+  .proof-kv dd { margin: 0; color: var(--color-text); font-weight: 600; overflow-wrap: anywhere; }
+  .pay-ref { font-family: Consolas, ui-monospace, monospace; font-size: 13px; letter-spacing: 0.02em; white-space: nowrap; }
+  .pay-table td, .pay-table th { vertical-align: middle; white-space: nowrap; }
+  @media (max-width: 1100px) { .pay-two { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) {
+    .pay-frais { grid-template-columns: minmax(0, 1fr); }
+    .proof-kv { grid-template-columns: minmax(0, 1fr); gap: 2px 0; }
+    .proof-kv dd { margin-bottom: 8px; }
+  }
+  @media print {
+    .admin-sidebar, .admin-topbar, .pay-note, .panel:not(.proof-panel), .pay-two > .pay-side > .panel:not(.proof-panel), .proof button { display: none !important; }
+    .admin-shell, .admin-main, .admin-content { display: block; padding: 0; }
+  }
+</style>
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">SK</span>
+      ScolarKin
+    </a>
+    <nav class="admin-nav">
+      <span class="admin-nav-label">Espace parent</span>
+      <a href="index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>Tableau de bord</a>
+      <a href="notes.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg></span>Notes de l'enfant</a>
+      <a href="presences.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></svg></span>Présences</a>
+      <a href="annonces.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /> <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" /> <path d="M8 6v8" /></svg></span>Annonces</a>
+      <a href="paiements.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /> <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg></span>Paiement des frais</a>
+      <a href="avis.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /></svg></span>Avis &amp; plaintes</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="../index.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></span>Retour au site</a>
+      <a href="../connexion.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-menu-toggle" aria-label="Ouvrir le menu"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+        <div>
+          <h1>Paiement des frais</h1>
+          <div class="admin-topbar-sub">Déclarez votre paiement et obtenez une preuve vérifiée</div>
+        </div>
+      </div>
+      <div class="admin-topbar-actions">
+        <select class="select-filter" aria-label="Choisir un enfant">
+          <option>Grace Mbuyi (6e A)</option>
+        </select>
+        <div class="admin-user">
+          <div class="admin-user-avatar">FM</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name">Félix Mbuyi</div>
+            <div class="admin-user-role">Parent</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <p class="form-note pay-note">Maquette : toutes les données sont fictives. Le journal du secrétariat est simulé dans cette page : en production, il viendrait de l'école.</p>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div><h2>Frais du 2e trimestre</h2><p>Grace Mbuyi, 6e A</p></div>
+          <span class="badge badge-amber" id="pay-statut">Reste à payer</span>
+        </div>
+        <div class="pay-frais">
+          <div><span>Frais</span><strong id="pay-frais">—</strong></div>
+          <div><span>Payé</span><strong id="pay-paye">—</strong></div>
+          <div><span>Reste à payer</span><strong id="pay-reste">—</strong></div>
+        </div>
+        <div class="pay-bar" aria-hidden="true"><span id="pay-bar"></span></div>
+      </div>
+
+      <div class="pay-two">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Déclarer un paiement</h2><p>Après votre envoi, recopiez les informations du paiement.</p></div></div>
+          <form id="pay-form" class="pay-form" autocomplete="off">
+            <div class="field">
+              <label for="p-nom">Votre nom</label>
+              <input type="text" id="p-nom" name="nom" placeholder="Votre nom, comme sur votre compte" required>
+            </div>
+            <div class="field">
+              <label for="p-eleve">Élève concerné</label>
+              <select id="p-eleve" name="eleve">
+                <option value="ELV-2026-0847">Grace Mbuyi (6e A)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="p-montant">Montant versé (Fc)</label>
+              <input type="number" id="p-montant" name="montant" min="1" step="1" required>
+            </div>
+            <div class="field">
+              <label for="p-ref">Numéro de référence</label>
+              <input type="text" id="p-ref" name="ref" maxlength="12" placeholder="ex. DEMF3R7LVA" required>
+              <p class="pay-hint">Il se trouve dans le SMS de confirmation de votre opérateur, à la ligne « Reference ». Copiez-le sans espace.</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Vérifier mon paiement</button>
+            <p class="pay-hint">Votre numéro enregistré (•••• 0101) sert à vérifier l'envoi. Le paiement n'est validé qu'après contrôle par l'école.</p>
+          </form>
+        </div>
+
+        <div class="pay-side">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Vérification</h2></div></div>
+            <p class="pay-msg" id="pay-msg" role="status" hidden></p>
+            <ul class="pay-checks" id="pay-checks"></ul>
+            <p class="pay-empty" id="pay-vide">Saisissez les informations de votre paiement pour lancer la vérification.</p>
+          </div>
+
+          <div class="panel proof-panel">
+            <div class="panel-head"><div><h2>Preuve de paiement</h2></div></div>
+            <div id="pay-preuve"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <div class="panel-head"><div><h2>Mes paiements déclarés</h2><p>Les preuves sont générées uniquement pour les paiements vérifiés.</p></div></div>
+        <div class="table-wrap">
+          <table class="data-table pay-table">
+            <thead><tr><th>Date</th><th>Élève</th><th>Montant</th><th>Référence</th><th>Statut</th><th>Preuve</th></tr></thead>
+            <tbody id="pay-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/app-shell.js?v=5"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const svg = (inner) => '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + "</svg>";
+  const ICON = {
+    ok: svg('<circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" />'),
+    warn: svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" />'),
+    err: svg('<circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" />'),
+  };
+  const CLASSE = { ok: "is-ok", warn: "is-warn", err: "is-err" };
+  const STATUT = {
+    verifie: ["Vérifié", "badge-green"],
+    attente: ["En attente", "badge-amber"],
+    doublon: ["Référence déjà utilisée", "badge-red"],
+    refus: ["Ne correspond pas", "badge-red"],
+  };
+
+  const ENFANT = { id: "ELV-2026-0847", nom: "Grace Mbuyi", classe: "6e A", frais: 250000 };
+  const PARENT = { nom: "Félix Mbuyi", tel: "243810000101" };
+
+  const JOURNAL = [
+    { ref: "DEM2A9KQ7T", montant: 100000, tel: "243810000101", nom: "FELIX MBUYI", eleve: "ELV-2026-0847" },
+    { ref: "DEMF3R7LVA", montant: 150000, tel: "243810000101", nom: "FELIX MBUYI", eleve: "ELV-2026-0847" },
+    { ref: "DEMZ5N0AQ7", montant: 150000, tel: "243810000101", nom: "FELIX MBUYI", eleve: "" },
+    { ref: "DEMQ7WB2XN", montant: 150000, tel: "243990000102", nom: "M. J. KALOMBO", eleve: "ELV-2026-0851" },
+  ];
+
+  const PREUVES = [
+    { numero: "PREU-2026-0001", ref: "DEM2A9KQ7T", montant: 100000, date: "24-09-2026" },
+  ];
+
+  const DECLARATIONS = [
+    { date: "24-09-2026", montant: 100000, ref: "DEM2A9KQ7T", statut: "verifie", numero: "PREU-2026-0001" },
+  ];
+
+  const state = { preuve: "PREU-2026-0001" };
+
+  const fmt = (n) => n.toLocaleString("fr-FR").replace(/[\s  ]/g, ".") + " Fc";
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/\s+/g, " ").trim();
+  const aujourdhui = () => {
+    const d = new Date();
+    const p = (n) => String(n).padStart(2, "0");
+    return p(d.getDate()) + "-" + p(d.getMonth() + 1) + "-" + d.getFullYear();
+  };
+  const payeTotal = () => PREUVES.reduce((s, p) => s + p.montant, 0);
+
+  function verifier(ref, nom, montant, eleveId) {
+    const checks = [];
+    const deja = PREUVES.find((p) => p.ref === ref);
+    if (deja) {
+      checks.push({ etat: "err", titre: "Référence unique", texte: "Cette référence a déjà servi à la preuve " + deja.numero + "." });
+      return { statut: "doublon", message: "Ce paiement a déjà été vérifié. Une référence ne peut servir qu'une fois.", checks };
+    }
+    checks.push({ etat: "ok", titre: "Référence unique", texte: "Cette référence n'a pas encore servi à une preuve." });
+
+    const entree = JOURNAL.find((j) => j.ref === ref);
+    if (!entree) {
+      checks.push({ etat: "warn", titre: "Reçu par l'école", texte: "Le secrétariat n'a pas encore enregistré ce paiement." });
+      return { statut: "attente", message: "Votre demande est enregistrée. La preuve sera générée dès que l'école aura reçu ce paiement. Revenez plus tard ou contactez le secrétariat.", checks };
+    }
+    checks.push({ etat: "ok", titre: "Reçu par l'école", texte: "Le secrétariat a enregistré ce paiement." });
+
+    if (!entree.eleve) {
+      checks.push({ etat: "warn", titre: "Élève associé", texte: "Le paiement n'est pas encore rattaché à un élève." });
+      return { statut: "attente", message: "Le paiement est bien reçu par l'école, mais il n'est pas encore rattaché à un élève. Le secrétariat doit le classer.", checks };
+    }
+    if (entree.eleve !== eleveId) {
+      checks.push({ etat: "err", titre: "Élève associé", texte: "Ce paiement est rattaché à un autre élève." });
+      return { statut: "refus", message: "Cette référence ne correspond pas à l'élève choisi. Vérifiez la référence et l'élève.", checks };
+    }
+    checks.push({ etat: "ok", titre: "Élève associé", texte: "Le paiement est rattaché à " + ENFANT.nom + "." });
+
+    if (entree.montant !== montant) {
+      checks.push({ etat: "err", titre: "Montant", texte: "Saisi : " + fmt(montant) + ". Reçu par l'école : " + fmt(entree.montant) + "." });
+      return { statut: "refus", message: "Le montant saisi ne correspond pas au montant reçu par l'école.", checks };
+    }
+    checks.push({ etat: "ok", titre: "Montant", texte: "Identique au montant reçu par l'école." });
+
+    const reste = ENFANT.frais - payeTotal();
+    if (entree.montant > reste) {
+      checks.push({ etat: "err", titre: "Reste à payer", texte: "Le montant dépasse le reste à payer (" + fmt(reste) + ")." });
+      return { statut: "refus", message: "Ce montant dépasse ce qui reste à payer pour ce trimestre.", checks };
+    }
+
+    const nomOk = norm(nom) === norm(entree.nom);
+    checks.push({ etat: nomOk ? "ok" : "warn", titre: "Nom du payeur", texte: nomOk ? "Correspond au nom affiché sur le SMS." : "Diffère du nom affiché sur le SMS. Ce n'est pas bloquant : l'école vérifiera." });
+    const telOk = entree.tel === PARENT.tel;
+    checks.push({ etat: telOk ? "ok" : "warn", titre: "Numéro expéditeur", texte: telOk ? "Correspond à votre numéro enregistré." : "Ce n'est pas votre numéro enregistré. Ce n'est pas bloquant : l'école vérifiera." });
+
+    return { statut: "verifie", message: "Paiement vérifié. Votre preuve est générée ci-dessous.", checks, entree };
+  }
+
+  function renderFrais() {
+    const paye = payeTotal();
+    const reste = Math.max(0, ENFANT.frais - paye);
+    $("pay-frais").textContent = fmt(ENFANT.frais);
+    $("pay-paye").textContent = fmt(paye);
+    $("pay-reste").textContent = fmt(reste);
+    $("pay-bar").style.width = Math.min(100, Math.round((paye / ENFANT.frais) * 100)) + "%";
+    const statut = $("pay-statut");
+    statut.textContent = reste ? "Reste à payer" : "Soldé";
+    statut.className = "badge " + (reste ? "badge-amber" : "badge-green");
+  }
+
+  function renderDeclarations() {
+    $("pay-rows").innerHTML = DECLARATIONS.slice().reverse().map((d) => {
+      const [texte, cls] = STATUT[d.statut];
+      const preuve = d.numero
+        ? '<button type="button" class="btn btn-outline" data-preuve="' + d.numero + '">Voir</button>'
+        : '<span class="cell-sub">—</span>';
+      return "<tr><td class=\"cell-sub\">" + esc(d.date) + "</td><td>" + esc(ENFANT.nom) + "</td><td>" + fmt(d.montant) + "</td><td class=\"pay-ref\">" + esc(d.ref) + "</td><td><span class=\"badge " + cls + "\">" + texte + "</span></td><td>" + preuve + "</td></tr>";
+    }).join("");
+  }
+
+  function renderProof() {
+    const box = $("pay-preuve");
+    const p = PREUVES.find((x) => x.numero === state.preuve);
+    if (!p) {
+      box.innerHTML = '<p class="pay-empty">Aucune preuve affichée. Elle apparaît ici dès qu\'un paiement est vérifié.</p>';
+      return;
+    }
+    box.innerHTML =
+      '<div class="proof">' +
+        '<div class="proof-head"><strong>' + esc(p.numero) + '</strong><span class="badge badge-green">Vérifiée</span></div>' +
+        '<dl class="proof-kv">' +
+          "<dt>Date de vérification</dt><dd>" + esc(p.date) + "</dd>" +
+          "<dt>Parent</dt><dd>" + esc(PARENT.nom) + "</dd>" +
+          "<dt>Élève</dt><dd>" + esc(ENFANT.nom) + " (" + ENFANT.id + "), " + esc(ENFANT.classe) + "</dd>" +
+          "<dt>Montant</dt><dd>" + fmt(p.montant) + "</dd>" +
+          "<dt>Référence</dt><dd class=\"pay-ref\">" + esc(p.ref) + "</dd>" +
+          "<dt>Frais concernés</dt><dd>2e trimestre</dd>" +
+        "</dl>" +
+        '<p class="pay-hint">Cette preuve atteste que le paiement a été vérifié sur ScolarKin. Elle ne remplace pas le reçu officiel de l\'école.</p>' +
+        '<button type="button" class="btn btn-outline" data-imprimer="1" style="margin-top:12px;">Imprimer la preuve</button>' +
+      "</div>";
+  }
+
+  function afficherResultat(type, texte, checks) {
+    const m = $("pay-msg");
+    m.className = "pay-msg is-" + type;
+    m.textContent = texte;
+    m.hidden = false;
+    $("pay-vide").hidden = true;
+    $("pay-checks").innerHTML = checks.map((c) =>
+      '<li class="pay-check ' + CLASSE[c.etat] + '">' + ICON[c.etat] + "<div><strong>" + esc(c.titre) + "</strong><span>" + esc(c.texte) + "</span></div></li>"
+    ).join("");
+  }
+
+  function renderAll() {
+    renderFrais();
+    renderDeclarations();
+    renderProof();
+  }
+
+  $("pay-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const ref = f.elements.ref.value.trim().toUpperCase();
+    if (!/^[A-Z0-9]{8,12}$/.test(ref)) {
+      afficherResultat("err", "Le numéro de référence doit comporter entre 8 et 12 lettres ou chiffres, sans espace.", []);
+      return;
+    }
+    const montant = Number(f.elements.montant.value);
+    const r = verifier(ref, f.elements.nom.value, montant, f.elements.eleve.value);
+    let numero = null;
+    if (r.statut === "verifie") {
+      numero = "PREU-2026-" + String(PREUVES.length + 1).padStart(4, "0");
+      PREUVES.push({ numero, ref, montant: r.entree.montant, date: aujourdhui() });
+      state.preuve = numero;
+    }
+    DECLARATIONS.push({ date: aujourdhui(), montant, ref, statut: r.statut, numero });
+    const type = r.statut === "verifie" ? "ok" : r.statut === "attente" ? "warn" : "err";
+    afficherResultat(type, r.message, r.checks);
+    f.reset();
+    f.elements.eleve.value = ENFANT.id;
+    renderAll();
+  });
+
+  $("pay-rows").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-preuve]");
+    if (!b) return;
+    state.preuve = b.dataset.preuve;
+    renderProof();
+    $("pay-preuve").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  $("pay-preuve").addEventListener("click", (e) => {
+    if (e.target.closest("[data-imprimer]")) window.print();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
